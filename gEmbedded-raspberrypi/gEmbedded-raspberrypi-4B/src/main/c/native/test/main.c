@@ -1,4 +1,6 @@
 #include <CUnit/Basic.h>
+#include <stdio.h>
+#include "common.h"
 
 extern void createJVM(void);
 
@@ -13,6 +15,8 @@ extern void testMapBaseRegister(void);
 extern void testUnmapBaseRegister(void);
 
 int main() {
+
+    printf("size : %d\n", sizeof(reg));
 
     createJVM();
     destroyJVM();

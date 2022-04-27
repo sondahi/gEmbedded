@@ -1,15 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/cFiles/file.h to edit this template
- */
-
-/* 
- * File:   common.h
- * Author: Gökay Cömert
- *
- * Created on 17. April 2022, 22:22
- */
-
 #ifndef COMMON_H
 #define COMMON_H
 
@@ -19,17 +7,24 @@ extern "C" {
 
 #include <stdint.h>
 
+#include <stdio.h>
+
 #define MEMORY_FILE_NAME        ("/dev/mem")
 #define PERIPHERAL_BASE_ADDRESS (0xFE000000)
 #define CORE_CLOCK_SPEED        (1500000000)
 
-    typedef uint8_t u8;
-    typedef uint16_t u16;
-    typedef uint32_t u32;
-    typedef uint64_t u64;
+#if __WORDSIZE == 32
+    # define REGISTER_TYPE		unsigned int
+#elif __WORDSIZE == 64
+    # define REGISTER_TYPE		unsigned long
+#else
+    # error
+#endif
 
-    typedef volatile u8 vu8;
-    typedef volatile u32 reg;
+typedef uint8_t u8;
+typedef uint32_t u32;
+typedef volatile u8 vu8;
+typedef volatile REGISTER_TYPE reg;
 
 #ifdef __cplusplus
 }
