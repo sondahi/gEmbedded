@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<project name="ant-test" basedir="">
+
+    <!-- chmod all .sh for build-->
+    <target name="set-properties">
+        <property-setter/>
+    </target>
+
+    <target name="create-headers">
+        <header-creator/>
+    </target>
+
+    <target name="copy-native">
+        <native-copier/>
+    </target>
+
+    <macrodef name="property-setter">
+        <attribute name="args" default=""/>
+        <sequential>
+            <echo message="Making all .sh files to executable"/>
+            <chmod dir="" failonerror="true" perm="ugo+rx" includes="**/*.sh"/>
+            <echo message="All .sh files are made executable"/>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="header-creator">
+        <attribute name="args" default=""/>
+        <sequential>
+            <echo message="Creating header files"/>
+            <exec dir="" failonerror="true" executable="/bin/bash"> <arg line="header.sh @{args}"/></exec>
+            <echo message="Headers files are created"/>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="native-copier">
+        <attribute name="args" default=""/>
+        <sequential>
+            <echo message="Copying native libraries "/>
+            <exec dir="" failonerror="true" executable="/bin/bash"> <arg line="copy.sh @{args}"/></exec>
+            <echo message="Native libraries are copied"/>
+        </sequential>
+    </macrodef>
+</project>
