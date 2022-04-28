@@ -32,7 +32,7 @@ struct MessageToSend {
 struct MessageToReceive {
     jint busSelector;
     u8 address;
-    u32 dataToReceive[16];
+    reg_t dataToReceive[16];
     jint dataToReceiveSize;
 };
 
@@ -41,7 +41,7 @@ struct MessageToSendAndReceive {
     u8 address;
     u8 dataToSend[16];
     jint dataToSendSize;
-    u32 dataToReceive[16];
+    reg_t dataToReceive[16];
     jint dataToReceiveSize;
 };
 

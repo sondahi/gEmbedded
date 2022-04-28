@@ -56,15 +56,15 @@ static BSCRegs *bscRegs[2];
 
 static I2C_STATUS configure_(const jint busSelector, const jint busClockInHertz, const jint busClockStretchTimeout) {
 
-    const register u32 divider = (CORE_CLOCK_SPEED / busClockInHertz);
+    const register reg_t divider = (CORE_CLOCK_SPEED / busClockInHertz);
     bscRegs[busSelector]->DIV = divider;
-    const register u32 divider_ = bscRegs[busSelector]->DIV;
+    const register reg_t divider_ = bscRegs[busSelector]->DIV;
     if (divider_ != divider) {
         return I2C_BUS_DIV_ERROR;
     }
 
     bscRegs[busSelector]->CLKT = busClockStretchTimeout;
-    const register u32 busClockStretchTimeout_ = bscRegs[busSelector]->CLKT;
+    const register reg_t busClockStretchTimeout_ = bscRegs[busSelector]->CLKT;
     if (busClockStretchTimeout_ != busClockStretchTimeout) {
         return I2C_BUS_CLKT_ERROR;
     }
@@ -87,7 +87,7 @@ static I2C_STATUS sendData_(struct MessageToSend *sMessage) {
         }
     }
 
-    const register u32 status = bscRegs[sMessage->busSelector]->S;
+    const register reg_t status = bscRegs[sMessage->busSelector]->S;
     if (status & S_ERR) {
         return I2C_SLAVE_SEND_ACK_ERROR;
     } else if (status & S_CLKT) {
@@ -114,7 +114,7 @@ static I2C_STATUS receiveData_(struct MessageToReceive *rMessage) {
         }
     }
 
-    const register u32 status = bscRegs[rMessage->busSelector]->S;
+    const register reg_t status = bscRegs[rMessage->busSelector]->S;
     if (status & S_ERR) {
         return I2C_SLAVE_RECEIVE_ACK_ERROR;
     } else if (status & S_CLKT) {
@@ -130,7 +130,7 @@ static I2C_STATUS receiveData_(struct MessageToReceive *rMessage) {
 static I2C_STATUS sendAndReceiveData_(struct MessageToSendAndReceive *srMessage) {
 
     register int count = 0;
-    register u32 status;
+    register reg_t status;
 
     bscRegs[srMessage->busSelector]->A = srMessage->address;
 

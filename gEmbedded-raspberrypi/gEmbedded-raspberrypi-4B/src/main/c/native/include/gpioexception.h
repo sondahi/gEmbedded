@@ -1,15 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/cFiles/file.h to edit this template
- */
-
-/* 
- * File:   gpioexception.h
- * Author: Gökay Cömert
- *
- * Created on 17. April 2022, 22:29
- */
-
 #ifndef GPIOEXCEPTION_H
 #define GPIOEXCEPTION_H
 

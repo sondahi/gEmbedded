@@ -1,4 +1,4 @@
-add_library(gEmbeddedRasPi4B32 SHARED
+add_library(${SHARED_LIBRARY_NAME} SHARED
         devicecontroller.c
         gpiocontroller.c
         gpiodriver.c

@@ -12,5 +12,14 @@ include_directories(
         include
 )
 
+SET(LIB_32 gEmbeddedRasPi4B32)
+SET(LIB_64 gEmbeddedRasPi4B64)
+
+IF(${CMAKE_SYSTEM_PROCESSOR} MATCHES "armv7l")
+    SET(SHARED_LIBRARY_NAME ${LIB_32})
+ELSE()
+    SET(SHARED_LIBRARY_NAME ${LIB_64})
+ENDIF()
+
 add_subdirectory(src)
 add_subdirectory(test)

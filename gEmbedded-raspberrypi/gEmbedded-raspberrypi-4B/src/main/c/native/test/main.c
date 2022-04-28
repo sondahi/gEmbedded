@@ -1,6 +1,7 @@
 #include <CUnit/Basic.h>
 #include <stdio.h>
 #include "common.h"
+#include "gpiotest.h"
 
 extern void createJVM(void);
 
@@ -16,16 +17,12 @@ extern void testUnmapBaseRegister(void);
 
 int main() {
 
-    printf("size : %d\n", sizeof(reg));
-
-    createJVM();
-    destroyJVM();
-
     CU_pSuite pSuite = NULL;
 
     if (CUE_SUCCESS != CU_initialize_registry())
         return CU_get_error();
 
+    /*
     pSuite = CU_add_suite("mappertest", init_suite, clean_suite);
     if (NULL == pSuite) {
         CU_cleanup_registry();
@@ -34,6 +31,18 @@ int main() {
 
     if ((NULL == CU_add_test(pSuite, "testMapBaseRegister", testMapBaseRegister)) ||
         (NULL == CU_add_test(pSuite, "testUnmapBaseRegister", testUnmapBaseRegister))) {
+        CU_cleanup_registry();
+        return CU_get_error();
+    }
+     */
+
+    pSuite = CU_add_suite("gpiotest", init_gpio_suite , clean_gpio_suite);
+    if (NULL == pSuite) {
+        CU_cleanup_registry();
+        return CU_get_error();
+    }
+
+    if ((NULL == CU_add_test(pSuite, "test1", testWrite))) {
         CU_cleanup_registry();
         return CU_get_error();
     }

@@ -58,16 +58,28 @@ typedef struct GPIOEvents_ {
 static GPIORegisters *gpioRegisters;
 static GPIOEvents gpioEvents[GPIO_PIN_SIZE];
 
+static int getRegisterSelector_(int pinNumber){
+
+    return (pinNumber / 32);
+
+}
+
+static int getPinset_(int pinNumber){
+
+    return 1 << (pinNumber % 32);
+
+}
+
 static GPIO_STATUS setPinFunction_(const jint pinNumber, const jint pinFunction) {
 
-    const register u32 registerSelector = pinNumber / 10;
+    const register reg_t registerSelector = pinNumber / 10;
 
     gpioRegisters->GPFSEL[registerSelector] &= ~(7 << ((pinNumber % 10) * 3));
     gpioRegisters->GPFSEL[registerSelector] |= (pinFunction << ((pinNumber % 10) * 3));
 
-    register u32 registerLine = gpioRegisters->GPFSEL[registerSelector];
-    register u32 mask = (7 << ((pinNumber % 10) * 3));
-    register u32 pinFunction_ = registerLine & mask;
+    register reg_t registerLine = gpioRegisters->GPFSEL[registerSelector];
+    register reg_t mask = (7 << ((pinNumber % 10) * 3));
+    register reg_t pinFunction_ = registerLine & mask;
     pinFunction_ >>= ((pinNumber % 10) * 3);
 
     if (pinFunction_ != pinFunction) {
@@ -80,14 +92,14 @@ static GPIO_STATUS setPinFunction_(const jint pinNumber, const jint pinFunction)
 
 static GPIO_STATUS setPUDStatus_(const jint pinNumber, const jint pullUpDownStatus) {
 
-    const register u32 registerSelector = pinNumber / 16;
+    const register reg_t registerSelector = pinNumber / 16;
 
     gpioRegisters->PUD[registerSelector] &= ~(3 << ((pinNumber % 16) * 2));
     gpioRegisters->PUD[registerSelector] |= (pullUpDownStatus << ((pinNumber % 16) * 2));
 
-    register u32 registerLine = gpioRegisters->PUD[registerSelector];
-    register u32 mask = (3 << ((pinNumber % 16) * 2));
-    register u32 pullUpDownStatus_ = registerLine & mask;
+    register reg_t registerLine = gpioRegisters->PUD[registerSelector];
+    register reg_t mask = (3 << ((pinNumber % 16) * 2));
+    register reg_t pullUpDownStatus_ = registerLine & mask;
     pullUpDownStatus_ >>= ((pinNumber % 16) * 2);
 
     if (pullUpDownStatus_ != pullUpDownStatus) {
@@ -151,7 +163,7 @@ static void releaseGPIOThreadResource_(const jint pinNumber) {
 
 static jboolean isHigh_(const jint registerSelector, const jint pinSet) {
 
-    register u32 registerState = gpioRegisters->GPLEV[registerSelector];
+    register reg_t registerState = gpioRegisters->GPLEV[registerSelector];
     registerState &= pinSet;
     if (registerState > 1)
         return JNI_TRUE;
@@ -162,7 +174,7 @@ static jboolean isHigh_(const jint registerSelector, const jint pinSet) {
 
 static jboolean isLow_(const jint registerSelector, const jint pinSet) {
 
-    register u32 registerState = gpioRegisters->GPLEV[registerSelector];
+    register reg_t registerState = gpioRegisters->GPLEV[registerSelector];
     registerState &= pinSet;
     if (registerState > 1)
         return JNI_FALSE;
@@ -246,6 +258,8 @@ GPIO_STATUS gpioDriverSetup() {
         gpioRegisters = (GPIORegisters *) pointer;
     }
 
+    gpioDriver.getRegisterSelector = getRegisterSelector_;
+    gpioDriver.getPinset = getPinset_;
     gpioDriver.setPinFunction = setPinFunction_;
     gpioDriver.setPUDStatus = setPUDStatus_;
     gpioDriver.setEventDetectStatus = setEventDetectStatus_;
