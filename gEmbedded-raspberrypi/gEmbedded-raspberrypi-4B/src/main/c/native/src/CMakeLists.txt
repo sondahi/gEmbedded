@@ -1,4 +1,4 @@
-add_library(${SHARED_LIBRARY_NAME} SHARED
+add_library(${SHARED_LIB_NAME} SHARED
         devicecontroller.c
         gpiocontroller.c
         gpiodriver.c
