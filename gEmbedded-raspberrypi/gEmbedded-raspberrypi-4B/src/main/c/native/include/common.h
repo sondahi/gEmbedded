@@ -1,8 +1,7 @@
 #ifndef COMMON_H
 #define COMMON_H
 
-#include <stdint.h>
-#include <stdio.h>
+#include <bits/stdint-uintn.h>
 
 #define MEMORY_FILE_NAME        ("/dev/mem")
 #define PERIPHERAL_BASE_ADDRESS (0xFE000000)

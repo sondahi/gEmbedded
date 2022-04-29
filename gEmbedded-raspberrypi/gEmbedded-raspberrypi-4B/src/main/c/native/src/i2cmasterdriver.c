@@ -200,7 +200,7 @@ I2C_STATUS i2cMasterDriverSetup(const jint busSelector) {
     void *pointer;
     register MapperStatus mapperStatus;
 
-    mapperStatus = mapBaseRegister(&pointer, MEMORY_FILE_NAME, BSC_BLOCK_SIZE, physicalAddress);
+    mapperStatus = mapBaseRegister(physicalAddress,BSC_BLOCK_SIZE, MEMORY_FILE_NAME, &pointer);
     if (mapperStatus == MAPPER_FILE_OPEN_ERROR) {
         return I2C_BUS_DEV_FILE_OPEN_ERROR;
     } else if (mapperStatus == MAPPER_MEMORY_MAP_ERROR) {
@@ -241,7 +241,7 @@ I2C_STATUS i2cMasterDriverShutdown(jint busSelector) {
 
     bscRegs[busSelector]->C = C_I2C_DIS;
 
-    const register MapperStatus mapperStatus = unmapBaseRegister((void *) registers, BSC_BLOCK_SIZE);
+    const register MapperStatus mapperStatus = unmapBaseRegister(BSC_BLOCK_SIZE, (void *) registers);
     if (mapperStatus == MAPPER_MEMORY_UNMAP_ERROR) {
         return I2C_BUS_MEM_UNMAP_ERROR;
     }

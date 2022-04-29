@@ -8,7 +8,7 @@ add_executable(test
         main.c
         jvm.c
         mappertest.c
-        gpiotest.c)
+        gpiotest.c include/mappertest.h)
 
 target_link_libraries(test ${SHARED_LIB_NAME})
 target_link_libraries(test cunit)
