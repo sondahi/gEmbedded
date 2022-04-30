@@ -4,11 +4,11 @@ import com.comert.gEmbedded.api.device.DeviceConstant;
 
 public enum PullUpDownStatus implements DeviceConstant {
 
-    NONE(0b00, "None"),
-    PULL_UP(0b01, "Pull up"),
-    PULL_DOWN(0b10, "Pull Down"),
-    RESERVED(0b11, "Reserved"),
-    DEFAULT(0, "Default");
+    NONE(0, "None"),
+    PULL_UP(1, "Pull up"),
+    PULL_DOWN(2, "Pull Down"),
+    DEFAULT(3, "Default"),
+    RESERVED(4, "Reserved");
 
     PullUpDownStatus(int digit, String text) {
         this.digit = digit;

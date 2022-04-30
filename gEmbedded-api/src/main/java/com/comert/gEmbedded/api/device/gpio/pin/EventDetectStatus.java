@@ -4,9 +4,9 @@ import com.comert.gEmbedded.api.device.DeviceConstant;
 
 public enum EventDetectStatus implements DeviceConstant {
 
+    FALLING(0, "Falling"),
     RISING(1, "Rising"),
-    FALLING(2, "Falling"),
-    BOTH(3, "Both");
+    BOTH(2, "Both");
 
     EventDetectStatus(int digit, String text) {
         this.digit = digit;

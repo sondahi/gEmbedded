@@ -16,9 +16,7 @@ public abstract class GPIOController {
     public static native void setPullUpDownStatus(Pin pin, PullUpDownStatus pullUpDownStatus, String enumMethodName, String enumMethodSignature) throws JNIException;
 
     public static native void setEventDetectStatus(Pin pin, EventDetectStatus eventDetectStatus, String enumMethodName, String enumMethodSignature, String fileName) throws JNIException;
-
     public static native boolean isHigh(final int registerSelector, final int pinSet);
-
     public static native boolean isLow(final int registerSelector, final int pinSet);
 
     public static native void write(final int registerSelector, final int pinSet);

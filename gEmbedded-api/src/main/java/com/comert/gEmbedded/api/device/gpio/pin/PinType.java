@@ -4,9 +4,10 @@ import com.comert.gEmbedded.api.device.DeviceConstant;
 
 public enum PinType implements DeviceConstant {
 
-    ALTERNATE(0,"Alternate"),
-    DIGITAL(1, "Digital"),
-    ANALOG(2, "Analog");
+    DIGITAL(0, "Digital"),
+    ANALOG(1, "Analog"),
+    ALTERNATE(2,"Alternate");
+
 
     PinType(int digit, String text) {
         this.digit = digit;

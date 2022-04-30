@@ -15,8 +15,8 @@ typedef enum MapperStatus_ {
     MAPPER_MEMORY_UNMAP_ERROR
 } MapperStatus;
 
-MapperStatus mapBaseRegister(off_t physicalAddress, size_t blockSize, const char *fileName, void **pointer);
+MapperStatus mapBaseRegister (off_t physicalAddress, size_t blockSize, const char *fileName, void **pointer);
 
-MapperStatus unmapBaseRegister(size_t blockSize, void *pointer);
+MapperStatus unmapBaseRegister (size_t blockSize, void *pointer);
 
 #endif

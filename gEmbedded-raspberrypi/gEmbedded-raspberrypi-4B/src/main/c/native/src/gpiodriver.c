@@ -59,19 +59,19 @@ typedef struct GPIOEvents_ {
 static GPIORegisters *gpioRegisters;
 static GPIOEvents gpioEvents[GPIO_PIN_SIZE];
 
-static int getRegisterSelector_(int pinNumber){
+static int getRegisterSelector_ (int pinNumber) {
 
     return (pinNumber / 32);
 
 }
 
-static int getPinset_(int pinNumber){
+static int getPinset_ (int pinNumber) {
 
     return 1 << (pinNumber % 32);
 
 }
 
-static GPIO_STATUS setPinFunction_(const jint pinNumber, const jint pinFunction) {
+static GPIO_STATUS setPinFunction_ (const jint pinNumber, const jint pinFunction) {
 
     const register reg_t registerSelector = pinNumber / 10;
 
@@ -91,7 +91,7 @@ static GPIO_STATUS setPinFunction_(const jint pinNumber, const jint pinFunction)
 
 }
 
-static GPIO_STATUS setPUDStatus_(const jint pinNumber, const jint pullUpDownStatus) {
+static GPIO_STATUS setPUDStatus_ (const jint pinNumber, const jint pullUpDownStatus) {
 
     const register reg_t registerSelector = pinNumber / 16;
 
@@ -111,43 +111,40 @@ static GPIO_STATUS setPUDStatus_(const jint pinNumber, const jint pullUpDownStat
 
 }
 
-static GPIO_STATUS setEventDetectStatus_(const jint pinNumber, const jint eventDetectionStatus, const char *fileName) {
+static GPIO_STATUS setEventDetectStatus_ (const jint pinNumber, const jint eventDetectionStatus, const char *fileName) {
 
-    int fileDescriptor = open(fileName, O_WRONLY);
+    int fileDescriptor = open (fileName, O_WRONLY);
     if (fileDescriptor < 0) {
-        close(fileDescriptor);
+        close (fileDescriptor);
         return GPIO_DEVICE_FILE_OPEN_ERROR;
     }
 
     gpioEvents[pinNumber].request.lineoffset = pinNumber;
     gpioEvents[pinNumber].request.handleflags = GPIOHANDLE_REQUEST_INPUT;
     switch (eventDetectionStatus) {
-        case 1:
-        {
+        case 1: {
             gpioEvents[pinNumber].request.eventflags = GPIOEVENT_REQUEST_RISING_EDGE;
             break;
         }
-        case 2:
-        {
+        case 2: {
             gpioEvents[pinNumber].request.eventflags = GPIOEVENT_REQUEST_FALLING_EDGE;
             break;
         }
-        default:
-        {
+        default: {
             gpioEvents[pinNumber].request.eventflags = GPIOEVENT_REQUEST_BOTH_EDGES;
             break;
         }
     }
     char pinLabel[2];
-    sprintf(pinLabel, "%d", pinNumber);
-    strcpy(gpioEvents[pinNumber].request.consumer_label, pinLabel);
+    sprintf (pinLabel, "%d", pinNumber);
+    strcpy (gpioEvents[pinNumber].request.consumer_label, pinLabel);
 
-    int result = ioctl(fileDescriptor, GPIO_GET_LINEEVENT_IOCTL, &gpioEvents[pinNumber].request);
+    int result = ioctl (fileDescriptor, GPIO_GET_LINEEVENT_IOCTL, &gpioEvents[pinNumber].request);
     if (result < 0) {
-        close(fileDescriptor);
+        close (fileDescriptor);
         return GPIO_GET_LINE_EVENT_IOCTL_ERROR;
     }
-    close(fileDescriptor);
+    close (fileDescriptor);
 
     gpioEvents[pinNumber].pollFd.fd = gpioEvents[pinNumber].request.fd;
     gpioEvents[pinNumber].pollFd.events = POLLIN | POLLPRI;
@@ -156,13 +153,13 @@ static GPIO_STATUS setEventDetectStatus_(const jint pinNumber, const jint eventD
 
 }
 
-static void releaseGPIOThreadResource_(const jint pinNumber) {
+static void releaseGPIOThreadResource_ (const jint pinNumber) {
 
-    close(gpioEvents[pinNumber].request.fd);
+    close (gpioEvents[pinNumber].request.fd);
 
 }
 
-static jboolean isHigh_(const jint registerSelector, const jint pinSet) {
+static jboolean isHigh_ (const jint registerSelector, const jint pinSet) {
 
     register reg_t registerState = gpioRegisters->GPLEV[registerSelector];
     registerState &= pinSet;
@@ -173,7 +170,7 @@ static jboolean isHigh_(const jint registerSelector, const jint pinSet) {
 
 }
 
-static jboolean isLow_(const jint registerSelector, const jint pinSet) {
+static jboolean isLow_ (const jint registerSelector, const jint pinSet) {
 
     register reg_t registerState = gpioRegisters->GPLEV[registerSelector];
     registerState &= pinSet;
@@ -184,59 +181,53 @@ static jboolean isLow_(const jint registerSelector, const jint pinSet) {
 
 }
 
-static void write_(const jint registerSelector, const jint pinSet) {
+static void write_ (const jint registerSelector, const jint pinSet) {
 
     gpioRegisters->GPSET[registerSelector] = pinSet;
 
 }
 
-static void clear_(const jint registerSelector, const jint pinSet) {
+static void clear_ (const jint registerSelector, const jint pinSet) {
 
     gpioRegisters->GPCLR[registerSelector] = pinSet;
 
 }
 
-static void pulse_(const jint registerSelector, const jint pinSet, const jint highSleepTimeInMicSec, const jint lowSleepTimeInMicSec) {
+static void pulse_ (const jint registerSelector, const jint pinSet, const jint highSleepTimeInMicSec,
+                    const jint lowSleepTimeInMicSec) {
 
     gpioRegisters->GPSET[registerSelector] = pinSet;
-    usleep(highSleepTimeInMicSec);
+    usleep (highSleepTimeInMicSec);
     gpioRegisters->GPCLR[registerSelector] = pinSet;
-    usleep(lowSleepTimeInMicSec);
+    usleep (lowSleepTimeInMicSec);
 
 }
 
-static jint poll_(const jint pinNumber, const jint timeoutInMilSec) {
+static jint poll_ (const jint pinNumber, const jint timeoutInMilSec) {
 
-    const register int pollResult = poll(&gpioEvents[pinNumber].pollFd, 1, timeoutInMilSec);
+    const register int pollResult = poll (&gpioEvents[pinNumber].pollFd, 1, timeoutInMilSec);
     switch (pollResult) {
-        case -1:
-        {
+        case -1: {
             return POLL_ERROR;
         }
-        case 0:
-        {
+        case 0: {
             return POLL_TIMEOUT;
         }
-        default:
-        {
-            register const ssize_t readResult = read(gpioEvents[pinNumber].request.fd, &gpioEvents[pinNumber].data, sizeof (gpioEvents[pinNumber].data));
+        default: {
+            register const ssize_t readResult = read (gpioEvents[pinNumber].request.fd, &gpioEvents[pinNumber].data,
+                                                      sizeof (gpioEvents[pinNumber].data));
             switch (readResult) {
-                case -1:
-                {
+                case -1: {
                 }
-                case 0:
-                {
+                case 0: {
                     return READ_ERROR;
                 }
-                default:
-                {
+                default: {
                     switch (gpioEvents[pinNumber].data.id) {
-                        case GPIOEVENT_EVENT_FALLING_EDGE:
-                        {
+                        case GPIOEVENT_EVENT_FALLING_EDGE: {
                             return FALLING;
                         }
-                        default:
-                        {
+                        default: {
                             return RISING;
                         }
                     }
@@ -247,10 +238,11 @@ static jint poll_(const jint pinNumber, const jint timeoutInMilSec) {
 
 }
 
-GPIO_STATUS gpioDriverSetup() {
+GPIO_STATUS gpioDriverSetup () {
 
     void *pointer;
-    const register MapperStatus mapperStatus = mapBaseRegister(GPIO_BASE_ADDRESS,GPIO_BLOCK_SIZE, MEMORY_FILE_NAME, &pointer);
+    const register MapperStatus mapperStatus = mapBaseRegister (GPIO_BASE_ADDRESS, GPIO_BLOCK_SIZE, MEMORY_FILE_NAME,
+                                                                &pointer);
     if (mapperStatus == MAPPER_FILE_OPEN_ERROR) {
         return GPIO_DEVICE_FILE_OPEN_ERROR;
     } else if (mapperStatus == MAPPER_MEMORY_MAP_ERROR) {
@@ -276,9 +268,9 @@ GPIO_STATUS gpioDriverSetup() {
 
 }
 
-GPIO_STATUS gpioDriverShutdown() {
+GPIO_STATUS gpioDriverShutdown () {
 
-    const register MapperStatus mapperStatus = unmapBaseRegister(GPIO_BLOCK_SIZE, (void *) gpioRegisters);
+    const register MapperStatus mapperStatus = unmapBaseRegister (GPIO_BLOCK_SIZE, (void *) gpioRegisters);
     if (mapperStatus == MAPPER_MEMORY_UNMAP_ERROR) {
         return GPIO_MEMORY_UNMAP_ERROR;
     }
