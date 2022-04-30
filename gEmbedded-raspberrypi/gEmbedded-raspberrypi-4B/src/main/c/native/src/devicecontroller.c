@@ -50,21 +50,32 @@ JNIEXPORT void JNICALL Java_com_comert_gEmbedded_pi_nativeinterface_DeviceContro
 }
 
 JNIEXPORT void JNICALL Java_com_comert_gEmbedded_pi_nativeinterface_DeviceController_setUpGpioDriver
-(JNIEnv *env, const jclass DeviceController){
+(JNIEnv *env, const jclass DeviceController, const jstring memoryFileName, const jint gpioBaseAddress, const jint gpioBlockSize){
 
-    const register GPIO_STATUS gpioStatus = gpioDriverSetup();
+    const char *fileName = (*env)->GetStringUTFChars(env, memoryFileName, JNI_FALSE);
+    if(fileName == NULL){
+        char message[250];
+        (*env)->ReleaseStringUTFChars(env, memoryFileName, fileName);
+        sprintf(message, "GPIO driver could not be setup");
+        jniController.throwANewJNIException(env, message);
+        return;
+    }
+
+    const register GPIO_STATUS gpioStatus = gpioDriverSetup(gpioBaseAddress,gpioBlockSize,fileName);
 
     const register GPIO_STATUS gpioExceptionStatus = gpioStatusCheck(env, gpioStatus);
     if(gpioExceptionStatus == GPIO_EXCEPTION_OCCURRED){
+        (*env)->ReleaseStringUTFChars(env, memoryFileName, fileName);
         return;
     }
-    
+
+    (*env)->ReleaseStringUTFChars(env, memoryFileName, fileName);
 }
 
 JNIEXPORT void JNICALL Java_com_comert_gEmbedded_pi_nativeinterface_DeviceController_shutDownGpioDriver
-(JNIEnv *env, const jclass DeviceController){
+(JNIEnv *env, const jclass DeviceController,const jint gpioBlockSize){
 
-    const register GPIO_STATUS gpioStatus = gpioDriverShutdown();
+    const register GPIO_STATUS gpioStatus = gpioDriverShutdown(gpioBlockSize);
 
     const register GPIO_STATUS gpioExceptionStatus = gpioStatusCheck(env, gpioStatus);
     if(gpioExceptionStatus == GPIO_EXCEPTION_OCCURRED){
@@ -74,21 +85,32 @@ JNIEXPORT void JNICALL Java_com_comert_gEmbedded_pi_nativeinterface_DeviceContro
 }
 
 JNIEXPORT void JNICALL Java_com_comert_gEmbedded_pi_nativeinterface_DeviceController_setUpI2CMasterDriver
-(JNIEnv *env, const jclass DeviceController, const jint busNumber){
+(JNIEnv *env, const jclass DeviceController, const jstring memoryFileName, const jint bscBaseAddress, const jint bscBlockSize, const jint busNumber){
 
-    const register I2C_STATUS i2CStatus = i2cMasterDriverSetup(busNumber);
+    const char *fileName = (*env)->GetStringUTFChars(env, memoryFileName, JNI_FALSE);
+    if(fileName == NULL){
+        char message[250];
+        (*env)->ReleaseStringUTFChars(env, memoryFileName, fileName);
+        sprintf(message, "IC2Master driver %d could not be setup",busNumber);
+        jniController.throwANewJNIException(env, message);
+        return;
+    }
+
+    const register I2C_STATUS i2CStatus = i2cMasterDriverSetup(bscBaseAddress,bscBlockSize,fileName,busNumber);
 
     const register I2C_STATUS i2cExceptionStatus = i2cStatusCheck(env,i2CStatus);
     if (i2cExceptionStatus == I2C_EXCEPTION_OCCURRED) {
+        (*env)->ReleaseStringUTFChars(env, memoryFileName, fileName);
         return;
     }
-    
+
+    (*env)->ReleaseStringUTFChars(env, memoryFileName, fileName);
 }
 
 JNIEXPORT void JNICALL Java_com_comert_gEmbedded_pi_nativeinterface_DeviceController_shutDownI2CMasterDriver
-(JNIEnv *env, jclass DeviceController, jint busNumber ){
+(JNIEnv *env, jclass DeviceController, const jint bscBlockSize, const jint busNumber){
 
-    const register I2C_STATUS i2CStatus = i2cMasterDriverShutdown(busNumber);
+    const register I2C_STATUS i2CStatus = i2cMasterDriverShutdown(bscBlockSize, busNumber);
 
     const register I2C_STATUS i2cExceptionStatus = i2cStatusCheck(env,i2CStatus);
     if (i2cExceptionStatus == I2C_EXCEPTION_OCCURRED) {

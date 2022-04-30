@@ -11,9 +11,6 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-#define GPIO_BASE_ADDRESS   (PERIPHERAL_BASE_ADDRESS + 0x200000)
-#define GPIO_BLOCK_SIZE     (0xF4)
-
 #define GPIO_PIN_SIZE       (30)
 
 #define FALLING             (0)
@@ -21,6 +18,25 @@
 #define READ_ERROR          (2)
 #define POLL_TIMEOUT        (3)
 #define POLL_ERROR          (4)
+
+typedef enum GPIO_PIN_FUNCTION_ {
+    INPUT = 0b000,
+    OUTPUT = 0b001,
+    ALT0 = 0b100,
+    ALT1 = 0b101,
+    ALT2 = 0b110,
+    ALT3 = 0b111,
+    ALT4 = 0b011,
+    ALT5 = 0b010
+} GPIO_PIN_FUNCTION;
+
+typedef enum GPIO_PUD_STATUS_ {
+    NONE = 0,
+    PULL_UP = 1,
+    PULL_DOWN = 2,
+    DEFAULT = 2,
+    RESERVED = 3
+} GPIO_PUD_STATUS;
 
 GPIODriver gpioDriver;
 
@@ -59,21 +75,47 @@ typedef struct GPIOEvents_ {
 static GPIORegisters *gpioRegisters;
 static GPIOEvents gpioEvents[GPIO_PIN_SIZE];
 
-static int getRegisterSelector_ (int pinNumber) {
-
-    return (pinNumber / 32);
-
-}
-
-static int getPinset_ (int pinNumber) {
-
-    return 1 << (pinNumber % 32);
-
-}
-
-static GPIO_STATUS setPinFunction_ (const jint pinNumber, const jint pinFunction) {
+static GPIO_STATUS setPinFunction_ (const jint pinNumber, jint pinFunction) {
 
     const register reg_t registerSelector = pinNumber / 10;
+
+    switch (pinFunction) {
+        case 0: {
+            pinFunction = ALT0;
+            break;
+        }
+        case 1: {
+            pinFunction = ALT1;
+            break;
+        }
+        case 2: {
+            pinFunction = ALT2;
+            break;
+        }
+        case 3: {
+            pinFunction = ALT3;
+            break;
+        }
+        case 4: {
+            pinFunction = ALT4;
+            break;
+        }
+        case 5: {
+            pinFunction = ALT5;
+            break;
+        }
+        case 6: {
+            pinFunction = INPUT;
+            break;
+        }
+        case 7: {
+            pinFunction = OUTPUT;
+            break;
+        }
+        default: {
+            return GPIO_PIN_FUNCTION_ERROR;
+        }
+    }
 
     gpioRegisters->GPFSEL[registerSelector] &= ~(7 << ((pinNumber % 10) * 3));
     gpioRegisters->GPFSEL[registerSelector] |= (pinFunction << ((pinNumber % 10) * 3));
@@ -91,9 +133,35 @@ static GPIO_STATUS setPinFunction_ (const jint pinNumber, const jint pinFunction
 
 }
 
-static GPIO_STATUS setPUDStatus_ (const jint pinNumber, const jint pullUpDownStatus) {
+static GPIO_STATUS setPUDStatus_ (const jint pinNumber, jint pullUpDownStatus) {
 
     const register reg_t registerSelector = pinNumber / 16;
+
+    switch (pullUpDownStatus) {
+        case 0: {
+            pullUpDownStatus = NONE;
+            break;
+        }
+        case 1: {
+            pullUpDownStatus = PULL_UP;
+            break;
+        }
+        case 2: {
+            pullUpDownStatus = PULL_DOWN;
+            break;
+        }
+        case 3: {
+            pullUpDownStatus = DEFAULT;
+            break;
+        }
+        case 4: {
+            pullUpDownStatus = RESERVED;
+            break;
+        }
+        default: {
+            return GPIO_PUD_STATUS_ERROR;
+        }
+    }
 
     gpioRegisters->PUD[registerSelector] &= ~(3 << ((pinNumber % 16) * 2));
     gpioRegisters->PUD[registerSelector] |= (pullUpDownStatus << ((pinNumber % 16) * 2));
@@ -151,6 +219,14 @@ static GPIO_STATUS setEventDetectStatus_ (const jint pinNumber, const jint event
 
     return GPIO_SUCCESS;
 
+}
+
+static jint getRegisterSelector_ (jint pinNumber) {
+    return pinNumber / 32;
+}
+
+static jint getPinset_ (jint pinNumber) {
+    return (1 << (pinNumber % 32));
 }
 
 static void releaseGPIOThreadResource_ (const jint pinNumber) {
@@ -238,10 +314,10 @@ static jint poll_ (const jint pinNumber, const jint timeoutInMilSec) {
 
 }
 
-GPIO_STATUS gpioDriverSetup () {
+GPIO_STATUS gpioDriverSetup (const off_t physicalAddress, const size_t blockSize, const char *fileName) {
 
     void *pointer;
-    const register MapperStatus mapperStatus = mapBaseRegister (GPIO_BASE_ADDRESS, GPIO_BLOCK_SIZE, MEMORY_FILE_NAME,
+    const register MapperStatus mapperStatus = mapBaseRegister (physicalAddress, blockSize, fileName,
                                                                 &pointer);
     if (mapperStatus == MAPPER_FILE_OPEN_ERROR) {
         return GPIO_DEVICE_FILE_OPEN_ERROR;
@@ -251,11 +327,11 @@ GPIO_STATUS gpioDriverSetup () {
         gpioRegisters = (GPIORegisters *) pointer;
     }
 
-    gpioDriver.getRegisterSelector = getRegisterSelector_;
-    gpioDriver.getPinset = getPinset_;
     gpioDriver.setPinFunction = setPinFunction_;
     gpioDriver.setPUDStatus = setPUDStatus_;
     gpioDriver.setEventDetectStatus = setEventDetectStatus_;
+    gpioDriver.getRegisterSelector = getRegisterSelector_;
+    gpioDriver.getPinset = getPinset_;
     gpioDriver.isHigh = isHigh_;
     gpioDriver.isLow = isLow_;
     gpioDriver.write = write_;
@@ -268,9 +344,9 @@ GPIO_STATUS gpioDriverSetup () {
 
 }
 
-GPIO_STATUS gpioDriverShutdown () {
+GPIO_STATUS gpioDriverShutdown (const size_t blockSize) {
 
-    const register MapperStatus mapperStatus = unmapBaseRegister (GPIO_BLOCK_SIZE, (void *) gpioRegisters);
+    const register MapperStatus mapperStatus = unmapBaseRegister (blockSize, (void *) gpioRegisters);
     if (mapperStatus == MAPPER_MEMORY_UNMAP_ERROR) {
         return GPIO_MEMORY_UNMAP_ERROR;
     }

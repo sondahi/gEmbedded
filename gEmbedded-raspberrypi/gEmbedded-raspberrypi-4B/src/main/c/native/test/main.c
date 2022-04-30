@@ -1,6 +1,7 @@
 #include <CUnit/Basic.h>
 
 #include "mappertest.h"
+#include "gpiotest.h"
 
 int main() {
 
@@ -10,6 +11,7 @@ int main() {
         return CU_get_error();
 
     MAPPER_TEST
+    GPIO_TEST
 
     CU_basic_set_mode(CU_BRM_VERBOSE);
     CU_basic_run_tests();

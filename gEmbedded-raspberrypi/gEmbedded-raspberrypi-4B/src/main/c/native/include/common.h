@@ -3,8 +3,6 @@
 
 #include <bits/stdint-uintn.h>
 
-#define MEMORY_FILE_NAME        ("/dev/mem")
-#define PERIPHERAL_BASE_ADDRESS (0xFE000000)
 #define CORE_CLOCK_SPEED        (1500000000)
 
 typedef uint8_t u8;
