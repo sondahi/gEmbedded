@@ -8,7 +8,11 @@ import java.io.IOException;
 public abstract class DeviceController {
 
     static {
-        System.loadLibrary("gEmbeddedRaspi4B");
+        if (System.getProperty("os.arch").equals("aarch64")){
+            System.loadLibrary("gEmbeddedRaspi4B");
+        } else {
+            System.loadLibrary("gEmbeddedRaspi4B");
+        }
         /*
         try {
             NativeUtils.loadLibraryFromJar("/libgEmbeddedRasPi4B32.so");
