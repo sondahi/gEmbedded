@@ -8,18 +8,24 @@ import java.io.IOException;
 public abstract class DeviceController {
 
     static {
-        if (System.getProperty("os.arch").equals("aarch64")){
-            System.loadLibrary("gEmbeddedRaspi4B");
-        } else {
-            System.loadLibrary("gEmbeddedRaspi4B");
-        }
         /*
+        if (System.getProperty("os.arch").equals("aarch64")){
+            System.loadLibrary("gEmbeddedRaspi4B64");
+        } else {
+            System.loadLibrary("gEmbeddedRaspi4B32");
+        }
+         */
+
         try {
-            NativeUtils.loadLibraryFromJar("/libgEmbeddedRasPi4B32.so");
+            if (System.getProperty("os.arch").equals("aarch64")){
+                NativeUtils.loadLibraryFromJar("/libgEmbeddedRaspi4B64.so");
+            } else {
+                NativeUtils.loadLibraryFromJar("/libgEmbeddedRaspi4B32.so");
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
-         */
+
     }
 
     private DeviceController() {

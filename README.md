@@ -26,7 +26,7 @@ PLEASE DO NOT DOWNLOAD CODES FROM GITHUB. BECAUSE I ALWAYS MAKE CHANGES. INSTEAD
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <gEmbedded.version>2022.04.16-SNAPSHOT</gEmbedded.version>
+        <gEmbedded.version>2022.05.01-SNAPSHOT</gEmbedded.version>
     </properties>
 
     <repositories>
