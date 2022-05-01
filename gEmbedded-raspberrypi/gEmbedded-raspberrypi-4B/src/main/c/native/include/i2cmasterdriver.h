@@ -54,8 +54,8 @@ typedef struct I2CMaster_ {
 
 extern I2CMaster i2CMasterDriver;
 
-I2C_STATUS i2cMasterDriverSetup(off_t physicalAddress, size_t blockSize, const char *fileName, jint busSelector);
-I2C_STATUS i2cMasterDriverShutdown(size_t blockSize, jint busSelector);
+I2C_STATUS i2cMasterDriverSetup(jint busSelector);
+I2C_STATUS i2cMasterDriverShutdown(jint busSelector);
 
 #ifdef __cplusplus
 }

@@ -2,28 +2,30 @@
 #include <unistd.h>
 #include "gpiotest.h"
 
-static const char *fileName = "/dev/mem";
-static const size_t blockSize = 0xF4; // GPIO
-static const off_t physicalAddress = 0xFE200000; // GPIO
-
-int init_gpio_suite(void) {
-    GPIO_STATUS status = gpioDriverSetup(physicalAddress,blockSize,fileName);
+int init_gpio_suite (void) {
+    GPIO_STATUS status = gpioDriverSetup();
+    if(status != GPIO_SUCCESS){
+        printf ("Error Code : %d\n",status);
+    }
     return status;
 }
 
-int clean_gpio_suite(void) {
-    GPIO_STATUS status = gpioDriverShutdown(blockSize);
+int clean_gpio_suite (void) {
+    GPIO_STATUS status = gpioDriverShutdown ();
+    if(status != GPIO_SUCCESS){
+        printf ("Error Code : %d\n",status);
+    }
     return status;
 }
 
-void testWrite(void){
-    int pinNumber = 21;
-    int pinFunction = 7;
-        gpioDriver.setPinFunction(pinNumber,pinFunction);
-        int registerSelector = gpioDriver.getRegisterSelector(pinNumber);
-        int pinSet = gpioDriver.getPinset(pinNumber);
-        gpioDriver.write(registerSelector, pinSet);
-    sleep(2);
-    gpioDriver.clear(registerSelector, pinSet);
+void testWrite (void) {
+    jint pinNumber = 21;
+    jint pinFunction = 7;
+    gpioDriver.setPinFunction (pinNumber, pinFunction);
+    jint registerSelector = gpioDriver.getRegisterSelector (pinNumber);
+    jint pinSet = gpioDriver.getPinset (pinNumber);
+    gpioDriver.write (registerSelector, pinSet);
+    sleep (5);
+    gpioDriver.clear (registerSelector, pinSet);
 }
 

@@ -6,6 +6,11 @@
 #include <jni.h>
 #include "mapper.h"
 
+
+#define BSC0_BASE_ADDRESS       (PERIPHERAL_BASE_ADDRESS + 0x205000)
+#define BSC1_BASE_ADDRESS       (PERIPHERAL_BASE_ADDRESS + 0x804000)
+#define BSC_BLOCK_SIZE          (0x20)
+
 I2CMaster i2CMasterDriver;
 
 typedef struct BSCRegs_ {
@@ -172,13 +177,20 @@ static I2C_STATUS sendAndReceiveData_ (struct MessageToSendAndReceive *srMessage
 
 }
 
-I2C_STATUS i2cMasterDriverSetup (const off_t physicalAddress, const size_t blockSize, const char *fileName,
-                                 const jint busSelector) {
+I2C_STATUS i2cMasterDriverSetup (const jint busSelector) {
 
     void *pointer;
     register MapperStatus mapperStatus;
 
-    mapperStatus = mapBaseRegister (physicalAddress, blockSize, fileName, &pointer);
+    off_t physicalAddress;
+
+    if(busSelector == 0){
+        physicalAddress = BSC0_BASE_ADDRESS;
+    } else {
+        physicalAddress = BSC1_BASE_ADDRESS;
+    }
+
+    mapperStatus = mapBaseRegister (physicalAddress, BSC_BLOCK_SIZE, MEMORY_FILE_NAME, &pointer);
     if (mapperStatus == MAPPER_FILE_OPEN_ERROR) {
         return I2C_BUS_DEV_FILE_OPEN_ERROR;
     } else if (mapperStatus == MAPPER_MEMORY_MAP_ERROR) {
@@ -196,13 +208,13 @@ I2C_STATUS i2cMasterDriverSetup (const off_t physicalAddress, const size_t block
 
 }
 
-I2C_STATUS i2cMasterDriverShutdown (const size_t blockSize, const jint busSelector) {
+I2C_STATUS i2cMasterDriverShutdown (const jint busSelector) {
 
     bscRegs[busSelector]->C = C_I2C_DIS;
 
     BSCRegs *registers = bscRegs[busSelector];
 
-    const register MapperStatus mapperStatus = unmapBaseRegister (blockSize, (void *) registers);
+    const register MapperStatus mapperStatus = unmapBaseRegister (BSC_BLOCK_SIZE, (void *) registers);
     if (mapperStatus == MAPPER_MEMORY_UNMAP_ERROR) {
         return I2C_BUS_MEM_UNMAP_ERROR;
     }

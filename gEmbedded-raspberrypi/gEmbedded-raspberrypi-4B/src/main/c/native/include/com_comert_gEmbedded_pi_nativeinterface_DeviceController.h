@@ -26,34 +26,34 @@ JNIEXPORT void JNICALL Java_com_comert_gEmbedded_pi_nativeinterface_DeviceContro
 /*
  * Class:     com_comert_gEmbedded_pi_nativeinterface_DeviceController
  * Method:    setUpGpioDriver
- * Signature: (Ljava/lang/String;II)V
+ * Signature: ()V
  */
 JNIEXPORT void JNICALL Java_com_comert_gEmbedded_pi_nativeinterface_DeviceController_setUpGpioDriver
-  (JNIEnv *, jclass, jstring, jint, jint);
+  (JNIEnv *, jclass);
 
 /*
  * Class:     com_comert_gEmbedded_pi_nativeinterface_DeviceController
  * Method:    shutDownGpioDriver
- * Signature: (I)V
+ * Signature: ()V
  */
 JNIEXPORT void JNICALL Java_com_comert_gEmbedded_pi_nativeinterface_DeviceController_shutDownGpioDriver
-  (JNIEnv *, jclass, jint);
+  (JNIEnv *, jclass);
 
 /*
  * Class:     com_comert_gEmbedded_pi_nativeinterface_DeviceController
  * Method:    setUpI2CMasterDriver
- * Signature: (Ljava/lang/String;III)V
+ * Signature: (I)V
  */
 JNIEXPORT void JNICALL Java_com_comert_gEmbedded_pi_nativeinterface_DeviceController_setUpI2CMasterDriver
-  (JNIEnv *, jclass, jstring, jint, jint, jint);
+  (JNIEnv *, jclass, jint);
 
 /*
  * Class:     com_comert_gEmbedded_pi_nativeinterface_DeviceController
  * Method:    shutDownI2CMasterDriver
- * Signature: (II)V
+ * Signature: (I)V
  */
 JNIEXPORT void JNICALL Java_com_comert_gEmbedded_pi_nativeinterface_DeviceController_shutDownI2CMasterDriver
-  (JNIEnv *, jclass, jint, jint);
+  (JNIEnv *, jclass, jint);
 
 #ifdef __cplusplus
 }

@@ -32,8 +32,8 @@ typedef struct GPIODriver_ {
 
 extern GPIODriver gpioDriver;
 
-GPIO_STATUS gpioDriverSetup (off_t physicalAddress, size_t blockSize, const char *fileName);
+GPIO_STATUS gpioDriverSetup ();
 
-GPIO_STATUS gpioDriverShutdown (size_t blockSize);
+GPIO_STATUS gpioDriverShutdown ();
 
 #endif

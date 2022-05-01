@@ -11,6 +11,8 @@
 #include <unistd.h>
 #include <fcntl.h>
 
+#define GPIO_BASE_ADDRESS   (PERIPHERAL_BASE_ADDRESS + 0x200000)
+#define GPIO_BLOCK_SIZE     (0xF4)
 #define GPIO_PIN_SIZE       (30)
 
 #define FALLING             (0)
@@ -314,10 +316,10 @@ static jint poll_ (const jint pinNumber, const jint timeoutInMilSec) {
 
 }
 
-GPIO_STATUS gpioDriverSetup (const off_t physicalAddress, const size_t blockSize, const char *fileName) {
+GPIO_STATUS gpioDriverSetup () {
 
     void *pointer;
-    const register MapperStatus mapperStatus = mapBaseRegister (physicalAddress, blockSize, fileName,
+    const register MapperStatus mapperStatus = mapBaseRegister (GPIO_BASE_ADDRESS, GPIO_BLOCK_SIZE, MEMORY_FILE_NAME,
                                                                 &pointer);
     if (mapperStatus == MAPPER_FILE_OPEN_ERROR) {
         return GPIO_DEVICE_FILE_OPEN_ERROR;
@@ -344,9 +346,9 @@ GPIO_STATUS gpioDriverSetup (const off_t physicalAddress, const size_t blockSize
 
 }
 
-GPIO_STATUS gpioDriverShutdown (const size_t blockSize) {
+GPIO_STATUS gpioDriverShutdown () {
 
-    const register MapperStatus mapperStatus = unmapBaseRegister (blockSize, (void *) gpioRegisters);
+    const register MapperStatus mapperStatus = unmapBaseRegister (GPIO_BLOCK_SIZE, (void *) gpioRegisters);
     if (mapperStatus == MAPPER_MEMORY_UNMAP_ERROR) {
         return GPIO_MEMORY_UNMAP_ERROR;
     }
