@@ -1,25 +1,13 @@
-#include "gpiodriver.h"
-#include "gpioexception.h"
-
-#include <jni.h>
-#include "common.h"
+#include <fcntl.h>
+#include <unistd.h>
 #include <linux/gpio.h>
-#include <poll.h>
-#include "mapper.h"
 #include <string.h>
 #include <sys/ioctl.h>
-#include <unistd.h>
-#include <fcntl.h>
-
-#define GPIO_BASE_ADDRESS   (PERIPHERAL_BASE_ADDRESS + 0x200000)
-#define GPIO_BLOCK_SIZE     (0xF4)
-#define GPIO_PIN_SIZE       (30)
-
-#define FALLING             (0)
-#define RISING              (1)
-#define READ_ERROR          (2)
-#define POLL_TIMEOUT        (3)
-#define POLL_ERROR          (4)
+#include <poll.h>
+#include "gpiodriver.h"
+#include "common.h"
+#include "jnicontroller.h"
+#include "mapper.h"
 
 typedef enum GPIO_PIN_FUNCTION_ {
     INPUT = 0b000,
@@ -354,5 +342,51 @@ GPIO_STATUS gpioDriverShutdown () {
     }
 
     return GPIO_SUCCESS;
+
+}
+
+GPIO_STATUS gpioStatusCheck(JNIEnv *env, const GPIO_STATUS status){
+
+    switch (status) {
+        case GPIO_DEVICE_FILE_OPEN_ERROR: {
+            char message[250]; // performance check
+            sprintf(message, "GPIO device file could not be opened");
+            jniController.throwANewJNIException(env, message);
+            return GPIO_EXCEPTION_OCCURRED;
+        }
+        case GPIO_MEMORY_MAP_ERROR: {
+            char message[250]; // performance check
+            sprintf(message, "GPIO memory mapping could not be setup");
+            jniController.throwANewJNIException(env, message);
+            return GPIO_EXCEPTION_OCCURRED;
+        }
+        case GPIO_MEMORY_UNMAP_ERROR: {
+            char message[250]; // performance check
+            sprintf(message, "GPIO memory unmapping could not be setup");
+            jniController.throwANewJNIException(env, message);
+            return GPIO_EXCEPTION_OCCURRED;
+        }
+        case GPIO_PIN_FUNCTION_ERROR: {
+            char message[250]; // performance check
+            sprintf(message, "Pin function could not be setup");
+            jniController.throwANewJNIException(env, message);
+            return GPIO_EXCEPTION_OCCURRED;
+        }
+        case GPIO_PUD_STATUS_ERROR: {
+            char message[250]; // performance check
+            sprintf(message, "Pull-up Pull-down status could not be setup");
+            jniController.throwANewJNIException(env, message);
+            return GPIO_EXCEPTION_OCCURRED;
+        }
+        case GPIO_GET_LINE_EVENT_IOCTL_ERROR: {
+            char message[250]; // performance check
+            sprintf(message, "I/O control could not be setup");
+            jniController.throwANewJNIException(env, message);
+            return GPIO_EXCEPTION_OCCURRED;
+        }
+        default: {
+            return GPIO_SUCCESS;
+        }
+    }
 
 }

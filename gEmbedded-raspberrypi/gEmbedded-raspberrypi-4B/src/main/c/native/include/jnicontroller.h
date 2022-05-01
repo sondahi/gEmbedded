@@ -1,14 +1,7 @@
-/**
- * @author Gökay Cömert
- */
-
 #include <jni.h>
 
 #ifndef NATIVE32_JNICONTROLLER_H
 #define NATIVE32_JNICONTROLLER_H
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 typedef enum JNI_STATUS_ {
     JNI_SUCCESS,
@@ -27,7 +20,4 @@ extern JniController jniController;
 JNI_STATUS jniSetup(JNIEnv *env, const char *jniExceptionClass);
 void jniShutdown(JNIEnv *env);
 
-#ifdef __cplusplus
-}
 #endif
-#endif //NATIVE32_JNICONTROLLER_H

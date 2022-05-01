@@ -1,10 +1,5 @@
-/**
- * @author Gökay Cömert
- */
-
 #include "com_comert_gEmbedded_pi_nativeinterface_DeviceController.h"
 #include "jnicontroller.h"
-
 #include "gpiodriver.h"
 #include "i2cmasterdriver.h"
 

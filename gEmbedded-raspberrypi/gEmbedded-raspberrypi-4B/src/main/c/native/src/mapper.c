@@ -1,8 +1,6 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <sys/mman.h>
-#include <string.h>
-
 #include "mapper.h"
 
 #define INVALID_PHYSICAL_ADDRESS    (0x0)

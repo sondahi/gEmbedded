@@ -1,7 +1,3 @@
-/**
- * @author Gökay Cömert
- */
-
 #include "jnicontroller.h"
 
 JniController jniController;

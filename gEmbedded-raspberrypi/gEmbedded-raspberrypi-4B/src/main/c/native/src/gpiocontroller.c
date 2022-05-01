@@ -1,10 +1,5 @@
-/**
- * @author Gökay Cömert
- */
-
 #include "com_comert_gEmbedded_pi_nativeinterface_GPIOController.h"
 #include "gpiodriver.h"
-
 #include "jnicontroller.h"
 
 JNIEXPORT void JNICALL Java_com_comert_gEmbedded_pi_nativeinterface_GPIOController_setPinFunction

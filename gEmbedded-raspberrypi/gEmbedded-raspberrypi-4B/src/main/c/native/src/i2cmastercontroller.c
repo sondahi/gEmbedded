@@ -1,10 +1,5 @@
-/**
- * @author Gökay Cömert
- */
-
 #include "com_comert_gEmbedded_pi_nativeinterface_I2CMasterController.h"
 #include "i2cmasterdriver.h"
-
 #include "jnicontroller.h"
 
 JNIEXPORT void JNICALL Java_com_comert_gEmbedded_pi_nativeinterface_I2CMasterController_setMaster
