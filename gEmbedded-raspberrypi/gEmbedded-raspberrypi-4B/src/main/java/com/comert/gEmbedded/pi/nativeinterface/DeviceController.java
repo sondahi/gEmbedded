@@ -8,12 +8,14 @@ import java.io.IOException;
 public abstract class DeviceController {
 
     static {
-        //System.loadLibrary("gEmbeddedRasPi4B32");
+        System.loadLibrary("gEmbeddedRaspi4B");
+        /*
         try {
             NativeUtils.loadLibraryFromJar("/libgEmbeddedRasPi4B32.so");
         } catch (IOException e) {
             e.printStackTrace();
         }
+         */
     }
 
     private DeviceController() {
