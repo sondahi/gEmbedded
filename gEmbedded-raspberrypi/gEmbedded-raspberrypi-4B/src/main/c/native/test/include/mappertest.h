@@ -17,6 +17,8 @@ void testFailUnmapWhenPointerIsNotValid(void);
 
 void testSuccessUnmapBaseRegister(void);
 
+void testSuccessMapperStatusCheck(void );
+
 #define MAPPER_TEST  \
     pSuite = CU_add_suite("mappertest", NULL, NULL); \
     if (NULL == pSuite) { \
@@ -30,8 +32,9 @@ void testSuccessUnmapBaseRegister(void);
         (NULL == CU_add_test(pSuite, "testSuccessMapBaseRegister", testSuccessMapBaseRegister)) || \
         (NULL == CU_add_test(pSuite, "testFailUnmapWhenBlockSizeIsNotValid", testFailUnmapWhenBlockSizeIsNotValid)) || \
         (NULL == CU_add_test(pSuite, "testFailUnmapWhenPointerIsNotValid", testFailUnmapWhenPointerIsNotValid)) || \
-        (NULL == CU_add_test(pSuite, "testSuccessUnmapBaseRegister", testSuccessUnmapBaseRegister)) \
-        ) { \
+        (NULL == CU_add_test(pSuite, "testSuccessUnmapBaseRegister", testSuccessUnmapBaseRegister)) || \
+        (NULL == CU_add_test(pSuite, "testSuccessMapperStatusCheck", testSuccessMapperStatusCheck)) \
+) { \
         CU_cleanup_registry(); \
         return CU_get_error(); \
     }; \

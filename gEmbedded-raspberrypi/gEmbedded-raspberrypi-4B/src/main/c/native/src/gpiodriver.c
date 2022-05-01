@@ -307,8 +307,7 @@ static jint poll_ (const jint pinNumber, const jint timeoutInMilSec) {
 GPIO_STATUS gpioDriverSetup () {
 
     void *pointer;
-    const register MapperStatus mapperStatus = mapBaseRegister (GPIO_BASE_ADDRESS, GPIO_BLOCK_SIZE, MEMORY_FILE_NAME,
-                                                                &pointer);
+    const register MAPPER_STATUS mapperStatus = mapBaseRegister (GPIO_BASE_ADDRESS, GPIO_BLOCK_SIZE, MEMORY_FILE_NAME, &pointer);
     if (mapperStatus == MAPPER_FILE_OPEN_ERROR) {
         return GPIO_DEVICE_FILE_OPEN_ERROR;
     } else if (mapperStatus == MAPPER_MEMORY_MAP_ERROR) {
@@ -336,7 +335,7 @@ GPIO_STATUS gpioDriverSetup () {
 
 GPIO_STATUS gpioDriverShutdown () {
 
-    const register MapperStatus mapperStatus = unmapBaseRegister (GPIO_BLOCK_SIZE, (void *) gpioRegisters);
+    const register MAPPER_STATUS mapperStatus = unmapBaseRegister (GPIO_BLOCK_SIZE, (void *) gpioRegisters);
     if (mapperStatus == MAPPER_MEMORY_UNMAP_ERROR) {
         return GPIO_MEMORY_UNMAP_ERROR;
     }

@@ -175,7 +175,7 @@ static I2C_STATUS sendAndReceiveData_ (struct MessageToSendAndReceive *srMessage
 I2C_STATUS i2cMasterDriverSetup (const jint busSelector) {
 
     void *pointer;
-    register MapperStatus mapperStatus;
+    register MAPPER_STATUS mapperStatus;
 
     off_t physicalAddress;
 
@@ -209,7 +209,7 @@ I2C_STATUS i2cMasterDriverShutdown (const jint busSelector) {
 
     BSCRegs *registers = bscRegs[busSelector];
 
-    const register MapperStatus mapperStatus = unmapBaseRegister (BSC_BLOCK_SIZE, (void *) registers);
+    const register MAPPER_STATUS mapperStatus = unmapBaseRegister (BSC_BLOCK_SIZE, (void *) registers);
     if (mapperStatus == MAPPER_MEMORY_UNMAP_ERROR) {
         return I2C_BUS_MEM_UNMAP_ERROR;
     }

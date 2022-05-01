@@ -3,9 +3,11 @@
 
 #include <stddef.h>
 #include <stdio.h>
+#include <jni.h>
 
-typedef enum MapperStatus_ {
+typedef enum MAPPER_STATUS_{
     MAPPER_SUCCESS,
+    MAPPER_EXCEPTION_OCCURRED,
     MAPPER_PHYSICAL_ADDRESS_ERROR,
     MAPPER_BLOCK_SIZE_ERROR,
     MAPPER_FILE_NAME_ERROR,
@@ -13,10 +15,12 @@ typedef enum MapperStatus_ {
     MAPPER_POINTER_ERROR,
     MAPPER_MEMORY_MAP_ERROR,
     MAPPER_MEMORY_UNMAP_ERROR
-} MapperStatus;
+} MAPPER_STATUS;
 
-MapperStatus mapBaseRegister (off_t physicalAddress, size_t blockSize, const char *fileName, void **pointer);
+MAPPER_STATUS mapBaseRegister (off_t physicalAddress, size_t blockSize, const char *fileName, void **pointer);
 
-MapperStatus unmapBaseRegister (size_t blockSize, void *pointer);
+MAPPER_STATUS unmapBaseRegister (size_t blockSize, void *pointer);
+
+MAPPER_STATUS mapperStatusCheck (const char *message, MAPPER_STATUS, char *messageToReturn);
 
 #endif

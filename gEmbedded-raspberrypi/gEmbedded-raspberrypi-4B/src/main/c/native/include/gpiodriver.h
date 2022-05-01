@@ -55,6 +55,6 @@ extern GPIODriver gpioDriver;
 
 GPIO_STATUS gpioDriverSetup ();
 GPIO_STATUS gpioDriverShutdown ();
-GPIO_STATUS gpioStatusCheck (JNIEnv *, GPIO_STATUS);
+GPIO_STATUS gpioStatusCheck (JNIEnv * env, GPIO_STATUS status);
 
 #endif

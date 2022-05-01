@@ -7,8 +7,7 @@
 #define MIN_BLOCK_SIZE              (1)
 #define MAX_BLOCK_SIZE              (4096)
 
-MapperStatus
-mapBaseRegister (const off_t physicalAddress, const size_t blockSize, const char *fileName, void **pointer) {
+MAPPER_STATUS mapBaseRegister (const off_t physicalAddress, const size_t blockSize, const char *fileName, void **pointer) {
 
     if (physicalAddress == INVALID_PHYSICAL_ADDRESS) {
         return MAPPER_PHYSICAL_ADDRESS_ERROR;
@@ -41,7 +40,7 @@ mapBaseRegister (const off_t physicalAddress, const size_t blockSize, const char
 
 }
 
-MapperStatus unmapBaseRegister (const size_t blockSize, void *pointer) {
+MAPPER_STATUS unmapBaseRegister (const size_t blockSize, void *pointer) {
 
     if (blockSize < MIN_BLOCK_SIZE || blockSize > MAX_BLOCK_SIZE) {
         return MAPPER_BLOCK_SIZE_ERROR;
@@ -58,5 +57,39 @@ MapperStatus unmapBaseRegister (const size_t blockSize, void *pointer) {
     }
 
     return MAPPER_SUCCESS;
+
+}
+
+MAPPER_STATUS mapperStatusCheck(const char *message, MAPPER_STATUS status, char *messageToReturn){
+
+    switch (status) {
+        case MAPPER_PHYSICAL_ADDRESS_ERROR: {
+            sprintf(messageToReturn,"Invalid memory map physical address : %s", message);
+            return MAPPER_EXCEPTION_OCCURRED;
+        }
+        case MAPPER_BLOCK_SIZE_ERROR: {
+            sprintf(messageToReturn,"Invalid memory block size : %s", message);
+            return MAPPER_EXCEPTION_OCCURRED;
+        }
+        case MAPPER_FILE_NAME_ERROR: {
+            sprintf(messageToReturn,"Invalid memory file name : %s", message);
+            return MAPPER_EXCEPTION_OCCURRED;
+        }
+        case MAPPER_FILE_OPEN_ERROR: {
+            sprintf(messageToReturn,"Memory file could not be opened : %s", message);
+            return MAPPER_EXCEPTION_OCCURRED;
+        }
+        case MAPPER_MEMORY_MAP_ERROR: {
+            sprintf(messageToReturn,"Memory mapping failed : %s", message);
+            return MAPPER_EXCEPTION_OCCURRED;
+        }
+        case MAPPER_MEMORY_UNMAP_ERROR: {
+            sprintf(messageToReturn,"Memory unmapping failed : %s", message);
+            return MAPPER_EXCEPTION_OCCURRED;
+        }
+        default: {
+            return MAPPER_SUCCESS;
+        }
+    }
 
 }
