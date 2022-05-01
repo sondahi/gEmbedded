@@ -65,7 +65,9 @@ void testSuccessUnmapBaseRegister (void) {
 void testSuccessMapperStatusCheck (void) {
     char messageToReceive[250];
     char *message = "Gpio Setup";
+    char *messageToCompare = "Invalid memory map physical address : Gpio Setup";
     MAPPER_STATUS status = MAPPER_PHYSICAL_ADDRESS_ERROR;
-    mapperStatusCheck (message, status,messageToReceive);
-    printf ("%s", messageToReceive);
+    MAPPER_STATUS mapperExceptionStatus = mapperStatusCheck (message, status, messageToReceive);
+    CU_ASSERT_EQUAL(MAPPER_EXCEPTION_OCCURRED, mapperExceptionStatus);
+    CU_ASSERT_STRING_EQUAL(messageToCompare, messageToReceive);
 }
