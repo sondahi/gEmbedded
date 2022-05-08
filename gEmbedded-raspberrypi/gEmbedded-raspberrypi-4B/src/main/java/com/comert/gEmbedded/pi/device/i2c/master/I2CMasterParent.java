@@ -1,16 +1,16 @@
 package com.comert.gEmbedded.pi.device.i2c.master;
 
-import com.comert.gEmbedded.api.device.common.exception.ExceptionMessage;
-import com.comert.gEmbedded.api.device.common.exception.IOException;
-import com.comert.gEmbedded.api.device.common.exception.InstanceIsNotCreatedException;
-import com.comert.gEmbedded.api.device.common.exception.JNIException;
+import com.comert.gEmbedded.api.device.exception.ExceptionMessage;
+import com.comert.gEmbedded.api.device.exception.IOException;
+import com.comert.gEmbedded.api.device.exception.InstanceIsNotCreatedException;
+import com.comert.gEmbedded.api.device.exception.JNIException;
 import com.comert.gEmbedded.api.device.gpio.pin.Pin;
 import com.comert.gEmbedded.api.device.gpio.pin.PinFunction;
 import com.comert.gEmbedded.api.device.i2c.impl.I2CMasterImpl;
 import com.comert.gEmbedded.api.device.i2c.master.I2CBus;
 import com.comert.gEmbedded.api.device.i2c.master.I2CMaster;
 import com.comert.gEmbedded.api.device.i2c.master.configurator.I2CMasterConfigurator;
-import com.comert.gEmbedded.pi.nativeinterface.I2CMasterController;
+import com.comert.gEmbedded.nativeinterface.I2CMasterController;
 
 import java.util.HashMap;
 import java.util.Map;

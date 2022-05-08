@@ -8,7 +8,6 @@ public enum I2CBus implements DeviceConstant {
     BUS_1(1, "Bus 1"),
     BUS_2(2, "Bus 2");
 
-
     I2CBus(int digit, String text) {
         this.digit = digit;
         this.text = text;

@@ -1,14 +1,14 @@
 package com.comert.gEmbedded.api.device.impl;
 
-import com.comert.gEmbedded.api.device.common.exception.DeviceExecutionException;
-import com.comert.gEmbedded.api.device.common.exception.ExceptionMessage;
-import com.comert.gEmbedded.api.device.common.exception.InstanceCreationException;
-import com.comert.gEmbedded.api.device.common.validator.InstanceCreationValidator;
-import com.comert.gEmbedded.api.device.provider.ProviderFactory;
 import com.comert.gEmbedded.api.device.Device;
-import com.comert.gEmbedded.api.device.gpio.factory.GPIOFactory;
+import com.comert.gEmbedded.api.device.exception.DeviceExecutionException;
+import com.comert.gEmbedded.api.device.exception.ExceptionMessage;
+import com.comert.gEmbedded.api.device.exception.InstanceCreationException;
+import com.comert.gEmbedded.api.device.validator.InstanceCreationValidator;
+import com.comert.gEmbedded.api.device.provider.ProviderFactory;
+import com.comert.gEmbedded.api.device.gpio.GPIOFactory;
 import com.comert.gEmbedded.api.device.gpio.impl.GPIOFactoryImpl;
-import com.comert.gEmbedded.api.device.i2c.factory.I2CMasterFactory;
+import com.comert.gEmbedded.api.device.i2c.I2CMasterFactory;
 import com.comert.gEmbedded.api.device.i2c.impl.I2CMasterFactoryImpl;
 
 public abstract class DeviceImpl implements Device {
@@ -16,11 +16,11 @@ public abstract class DeviceImpl implements Device {
     private static GPIOFactoryImpl GPIOFactoryProvider;
     private static I2CMasterFactoryImpl I2CMasterFactoryProvider;
 
-    protected boolean deviceExecuting;
+    private boolean deviceExecuting;
 
     protected DeviceImpl() {
         synchronized (this) {
-            final var desiredFactoryClassName = "com.comert.gEmbedded.api.device.factory.DeviceFactory";
+            final var desiredFactoryClassName = "com.comert.gEmbedded.api.device.DeviceFactory";
             try {
                 InstanceCreationValidator.validateIfInstanceIsBeingCreatedInDesiredClass(desiredFactoryClassName);
             } catch (InstanceCreationException instanceCreationException) {
@@ -39,6 +39,7 @@ public abstract class DeviceImpl implements Device {
             }
         } else {
             executeSetUp();
+            deviceExecuting = true;
         }
     }
 
@@ -46,6 +47,7 @@ public abstract class DeviceImpl implements Device {
     public final synchronized void shutDownDevice() {
         if (deviceExecuting) {
             executeShutDown();
+            deviceExecuting = false;
         } else {
             try {
                 throw new DeviceExecutionException(ExceptionMessage.DEVICE_IS_ALREADY_SHUT_DOWN_MESSAGE, "RaspberryPi");

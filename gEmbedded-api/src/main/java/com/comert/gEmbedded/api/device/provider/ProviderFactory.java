@@ -1,7 +1,7 @@
 package com.comert.gEmbedded.api.device.provider;
 
-import com.comert.gEmbedded.api.device.common.exception.ExceptionMessage;
-import com.comert.gEmbedded.api.device.common.exception.ProviderException;
+import com.comert.gEmbedded.api.device.exception.ExceptionMessage;
+import com.comert.gEmbedded.api.device.exception.ProviderException;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -11,11 +11,6 @@ public abstract class ProviderFactory {
     private ProviderFactory() {
     }
 
-    /*
-     * Spesifikasyona göre provider belirlediğimiz hiyerarşiyi devralmak zorunda.
-     * Sadece interface değil aynı zamanda birtakım kontroller için interface'i implement eden abstract sınıfıda implement etmelidir.
-     * Private olan validasyon metodları istenilen şartları kontrol etmektedir.
-     */
     public static <P> P createProviderAndUpcastToParentReference(final String fullQualifiedProviderClassName, final Class<P> providerParentClass) {
         P parentReference;
         try {

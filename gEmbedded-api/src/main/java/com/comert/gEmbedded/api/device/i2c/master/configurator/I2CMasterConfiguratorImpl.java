@@ -1,7 +1,7 @@
 package com.comert.gEmbedded.api.device.i2c.master.configurator;
 
-import com.comert.gEmbedded.api.device.common.exception.ExceptionMessage;
-import com.comert.gEmbedded.api.device.common.exception.I2CMasterConfigurationException;
+import com.comert.gEmbedded.api.device.exception.ExceptionMessage;
+import com.comert.gEmbedded.api.device.exception.I2CMasterConfigurationException;
 import com.comert.gEmbedded.api.device.gpio.pin.Pin;
 import com.comert.gEmbedded.api.device.gpio.pin.PinFunction;
 import com.comert.gEmbedded.api.device.i2c.master.I2CBus;

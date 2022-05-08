@@ -1,7 +1,7 @@
 package com.comert.gEmbedded.api.device.gpio.impl;
 
-import com.comert.gEmbedded.api.device.common.exception.InstanceCreationException;
-import com.comert.gEmbedded.api.device.common.validator.InstanceCreationValidator;
+import com.comert.gEmbedded.api.device.exception.InstanceCreationException;
+import com.comert.gEmbedded.api.device.validator.InstanceCreationValidator;
 import com.comert.gEmbedded.api.device.gpio.pin.InPutPin;
 
 // providerların bunu implemente etmesini zorlamalalı ama bu defa bütün metodların factoryde impl control edilmesi gerekiyor

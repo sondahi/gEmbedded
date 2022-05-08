@@ -1,7 +1,7 @@
 package com.comert.gEmbedded.api.device.i2c.impl;
 
-import com.comert.gEmbedded.api.device.common.exception.InstanceCreationException;
-import com.comert.gEmbedded.api.device.common.validator.InstanceCreationValidator;
+import com.comert.gEmbedded.api.device.exception.InstanceCreationException;
+import com.comert.gEmbedded.api.device.validator.InstanceCreationValidator;
 import com.comert.gEmbedded.api.device.i2c.master.I2CMaster;
 
 public abstract class I2CMasterImpl implements I2CMaster {

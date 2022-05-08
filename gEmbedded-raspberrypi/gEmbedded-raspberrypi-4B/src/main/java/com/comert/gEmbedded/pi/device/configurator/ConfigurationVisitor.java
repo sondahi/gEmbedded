@@ -1,9 +1,9 @@
 package com.comert.gEmbedded.pi.device.configurator;
 
-import com.comert.gEmbedded.api.device.common.exception.ExceptionMessage;
-import com.comert.gEmbedded.api.device.common.exception.I2CMasterConfigurationException;
-import com.comert.gEmbedded.api.device.common.exception.JNIException;
-import com.comert.gEmbedded.api.device.common.exception.PinConfigurationException;
+import com.comert.gEmbedded.api.device.exception.ExceptionMessage;
+import com.comert.gEmbedded.api.device.exception.I2CMasterConfigurationException;
+import com.comert.gEmbedded.api.device.exception.JNIException;
+import com.comert.gEmbedded.api.device.exception.PinConfigurationException;
 import com.comert.gEmbedded.api.device.gpio.pin.Pin;
 import com.comert.gEmbedded.api.device.gpio.pin.PullUpDownStatus;
 import com.comert.gEmbedded.api.device.gpio.pin.configurator.InPutPinConfigurator;
@@ -11,8 +11,8 @@ import com.comert.gEmbedded.api.device.gpio.pin.configurator.OutPutPinConfigurat
 import com.comert.gEmbedded.api.device.gpio.pin.configurator.PWMPinConfigurator;
 import com.comert.gEmbedded.api.device.i2c.master.I2CBus;
 import com.comert.gEmbedded.api.device.i2c.master.configurator.I2CMasterConfigurator;
-import com.comert.gEmbedded.pi.nativeinterface.GPIOController;
-import com.comert.gEmbedded.pi.nativeinterface.I2CMasterController;
+import com.comert.gEmbedded.nativeinterface.GPIOController;
+import com.comert.gEmbedded.nativeinterface.I2CMasterController;
 
 import java.util.HashSet;
 import java.util.Set;

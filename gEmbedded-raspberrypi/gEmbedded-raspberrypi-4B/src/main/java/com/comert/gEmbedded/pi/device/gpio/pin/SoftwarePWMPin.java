@@ -1,13 +1,13 @@
 package com.comert.gEmbedded.pi.device.gpio.pin;
 
-import com.comert.gEmbedded.api.device.common.exception.ExceptionMessage;
-import com.comert.gEmbedded.api.device.common.exception.InstanceIsNotCreatedException;
+import com.comert.gEmbedded.api.device.exception.ExceptionMessage;
+import com.comert.gEmbedded.api.device.exception.InstanceIsNotCreatedException;
 import com.comert.gEmbedded.api.device.gpio.impl.PWMPinImpl;
 import com.comert.gEmbedded.api.device.gpio.pin.PWMPin;
 import com.comert.gEmbedded.api.device.gpio.pin.PWMType;
 import com.comert.gEmbedded.api.device.gpio.pin.Pin;
 import com.comert.gEmbedded.api.device.gpio.pin.configurator.PWMPinConfigurator;
-import com.comert.gEmbedded.pi.nativeinterface.GPIOController;
+import com.comert.gEmbedded.nativeinterface.GPIOController;
 
 import java.util.HashMap;
 import java.util.Map;

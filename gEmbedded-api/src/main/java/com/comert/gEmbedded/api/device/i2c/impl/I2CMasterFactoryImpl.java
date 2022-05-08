@@ -1,8 +1,9 @@
 package com.comert.gEmbedded.api.device.i2c.impl;
 
-import com.comert.gEmbedded.api.device.common.exception.InstanceCreationException;
-import com.comert.gEmbedded.api.device.common.validator.InstanceCreationValidator;
-import com.comert.gEmbedded.api.device.i2c.factory.I2CMasterFactory;
+import com.comert.gEmbedded.api.device.exception.InstanceCreationException;
+import com.comert.gEmbedded.api.device.i2c.impl.I2CMasterImpl;
+import com.comert.gEmbedded.api.device.validator.InstanceCreationValidator;
+import com.comert.gEmbedded.api.device.i2c.I2CMasterFactory;
 import com.comert.gEmbedded.api.device.i2c.master.I2CMaster;
 import com.comert.gEmbedded.api.device.i2c.master.configurator.I2CMasterConfigurator;
 

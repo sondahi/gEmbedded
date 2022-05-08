@@ -1,8 +1,8 @@
 package com.comert.gEmbedded.api.i2c.impl;
 
-import com.comert.gEmbedded.api.device.common.exception.I2CMasterConfigurationException;
-import com.comert.gEmbedded.api.device.common.exception.JNIException;
-import com.comert.gEmbedded.api.device.common.exception.PinConfigurationException;
+import com.comert.gEmbedded.api.device.exception.I2CMasterConfigurationException;
+import com.comert.gEmbedded.api.device.exception.JNIException;
+import com.comert.gEmbedded.api.device.exception.PinConfigurationException;
 import com.comert.gEmbedded.api.device.i2c.impl.I2CMasterFactoryImpl;
 import com.comert.gEmbedded.api.device.i2c.impl.I2CMasterImpl;
 import com.comert.gEmbedded.api.device.i2c.master.configurator.I2CMasterConfigurator;

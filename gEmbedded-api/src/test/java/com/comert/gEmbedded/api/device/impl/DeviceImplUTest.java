@@ -1,12 +1,11 @@
 package com.comert.gEmbedded.api.device.impl;
 
-import com.comert.gEmbedded.api.device.common.exception.ExceptionMessage;
+import com.comert.gEmbedded.api.device.exception.ExceptionMessage;
 import com.comert.gEmbedded.api.device.Device;
-import com.comert.gEmbedded.api.device.factory.DeviceFactory;
-import com.comert.gEmbedded.api.device.gpio.factory.GPIOFactory;
-import com.comert.gEmbedded.api.gpio.impl.GPIOFactoryProvider;
-import com.comert.gEmbedded.api.util.device.InstanceProcuder;
-import com.comert.gEmbedded.api.util.device.MultiThreadingTest;
+import com.comert.gEmbedded.api.device.DeviceFactory;
+import com.comert.gEmbedded.api.device.gpio.GPIOFactory;
+import com.comert.gEmbedded.api.device.util.InstanceProducer;
+import com.comert.gEmbedded.api.device.util.MultiThreadingTest;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -70,9 +69,9 @@ public class DeviceImplUTest {
 
     @Test
     public void testSuccesGPIOFactorySingleTonMultiThreadingAccsess() throws InterruptedException {
-        InstanceProcuder<GPIOFactory> gpioFactoryInstanceProcuder = device::getGPIOFactoryInstance;
+        InstanceProducer<GPIOFactory> gpioFactoryInstanceProducer = device::getGPIOFactoryInstance;
 
-        int instanceSize = MultiThreadingTest.instanceSize(gpioFactoryInstanceProcuder);
+        int instanceSize = MultiThreadingTest.getInstanceSize(gpioFactoryInstanceProducer);
         assertEquals(1, instanceSize);
     }
 

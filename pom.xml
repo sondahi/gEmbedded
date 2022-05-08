@@ -45,6 +45,7 @@
         <module>gEmbedded-api</module>
         <module>gEmbedded-component</module>
         <module>gEmbedded-raspberrypi</module>
+        <module>gEmbedded-driver</module>
     </modules>
     <packaging>pom</packaging>
 

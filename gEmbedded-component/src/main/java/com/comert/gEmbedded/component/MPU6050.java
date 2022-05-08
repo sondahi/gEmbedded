@@ -1,6 +1,6 @@
 package com.comert.gEmbedded.component;
 
-import com.comert.gEmbedded.api.device.common.exception.IOException;
+import com.comert.gEmbedded.api.device.exception.IOException;
 import com.comert.gEmbedded.api.device.i2c.master.I2CMaster;
 
 public final class MPU6050 extends Thread {

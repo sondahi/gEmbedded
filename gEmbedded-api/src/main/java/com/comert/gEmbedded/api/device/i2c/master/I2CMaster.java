@@ -1,6 +1,6 @@
 package com.comert.gEmbedded.api.device.i2c.master;
 
-import com.comert.gEmbedded.api.device.common.exception.IOException;
+import com.comert.gEmbedded.api.device.exception.IOException;
 import com.comert.gEmbedded.api.device.gpio.pin.Pin;
 import com.comert.gEmbedded.api.device.gpio.pin.PinFunction;
 

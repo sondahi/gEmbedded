@@ -1,8 +1,8 @@
 package com.comert.gEmbedded.api.gpio.impl;
 
-import com.comert.gEmbedded.api.device.common.exception.JNIException;
-import com.comert.gEmbedded.api.device.common.exception.PinConfigurationException;
-import com.comert.gEmbedded.api.device.common.exception.ProviderException;
+import com.comert.gEmbedded.api.device.exception.JNIException;
+import com.comert.gEmbedded.api.device.exception.PinConfigurationException;
+import com.comert.gEmbedded.api.device.exception.ProviderException;
 import com.comert.gEmbedded.api.device.gpio.impl.GPIOFactoryImpl;
 import com.comert.gEmbedded.api.device.gpio.impl.InPutPinImpl;
 import com.comert.gEmbedded.api.device.gpio.impl.OutPutPinImpl;

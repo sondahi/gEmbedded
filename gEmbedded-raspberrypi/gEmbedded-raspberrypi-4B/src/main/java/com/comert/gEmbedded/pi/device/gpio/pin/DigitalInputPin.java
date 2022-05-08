@@ -1,12 +1,12 @@
 package com.comert.gEmbedded.pi.device.gpio.pin;
 
-import com.comert.gEmbedded.api.device.common.exception.ExceptionMessage;
-import com.comert.gEmbedded.api.device.common.exception.InstanceIsNotCreatedException;
+import com.comert.gEmbedded.api.device.exception.ExceptionMessage;
+import com.comert.gEmbedded.api.device.exception.InstanceIsNotCreatedException;
 import com.comert.gEmbedded.api.device.gpio.impl.InPutPinImpl;
 import com.comert.gEmbedded.api.device.gpio.listener.GPIOEventListener;
 import com.comert.gEmbedded.api.device.gpio.pin.*;
 import com.comert.gEmbedded.api.device.gpio.pin.configurator.InPutPinConfigurator;
-import com.comert.gEmbedded.pi.nativeinterface.GPIOController;
+import com.comert.gEmbedded.nativeinterface.GPIOController;
 
 import java.util.HashMap;
 import java.util.Map;

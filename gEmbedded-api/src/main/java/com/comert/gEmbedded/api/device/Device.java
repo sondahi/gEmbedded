@@ -1,7 +1,7 @@
 package com.comert.gEmbedded.api.device;
 
-import com.comert.gEmbedded.api.device.gpio.factory.GPIOFactory;
-import com.comert.gEmbedded.api.device.i2c.factory.I2CMasterFactory;
+import com.comert.gEmbedded.api.device.gpio.GPIOFactory;
+import com.comert.gEmbedded.api.device.i2c.I2CMasterFactory;
 
 public interface Device {
 
@@ -14,3 +14,4 @@ public interface Device {
     I2CMasterFactory getI2CMasterFactoryInstance();
 
 }
+

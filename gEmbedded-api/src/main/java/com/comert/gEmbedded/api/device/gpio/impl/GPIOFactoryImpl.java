@@ -1,8 +1,8 @@
 package com.comert.gEmbedded.api.device.gpio.impl;
 
-import com.comert.gEmbedded.api.device.common.exception.InstanceCreationException;
-import com.comert.gEmbedded.api.device.common.validator.InstanceCreationValidator;
-import com.comert.gEmbedded.api.device.gpio.factory.GPIOFactory;
+import com.comert.gEmbedded.api.device.exception.InstanceCreationException;
+import com.comert.gEmbedded.api.device.validator.InstanceCreationValidator;
+import com.comert.gEmbedded.api.device.gpio.GPIOFactory;
 import com.comert.gEmbedded.api.device.gpio.pin.InPutPin;
 import com.comert.gEmbedded.api.device.gpio.pin.PWMPin;
 import com.comert.gEmbedded.api.device.gpio.pin.configurator.InPutPinConfigurator;

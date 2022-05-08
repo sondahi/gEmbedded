@@ -1,7 +1,7 @@
 package com.comert.gEmbedded.api.device.gpio.pin.configurator;
 
-import com.comert.gEmbedded.api.device.common.exception.ExceptionMessage;
-import com.comert.gEmbedded.api.device.common.exception.PinConfigurationException;
+import com.comert.gEmbedded.api.device.exception.ExceptionMessage;
+import com.comert.gEmbedded.api.device.exception.PinConfigurationException;
 import com.comert.gEmbedded.api.device.gpio.listener.GPIOEventListener;
 import com.comert.gEmbedded.api.device.gpio.pin.*;
 
