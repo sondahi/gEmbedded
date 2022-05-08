@@ -7,62 +7,37 @@ static const char *fileName = "/dev/mem";
 static const size_t blockSize = 0xF4; // GPIO
 static const off_t physicalAddress = 0xFE200000; // GPIO
 
-void testFailMapWhenPhysicalAddressIsNotValid (void) {
-    off_t inValidPhysicalAddress = 0x0;
-    MAPPER_STATUS status = mapBaseRegister (inValidPhysicalAddress, blockSize, fileName, &pointer);
-    CU_ASSERT_NOT_EQUAL(status, MAPPER_SUCCESS)
-    CU_ASSERT_EQUAL(status, MAPPER_PHYSICAL_ADDRESS_ERROR)
-}
-
-void testFailMapWhenBlockSizeIsNotValid (void) {
-    size_t inValidBlockSize = 0;
-    MAPPER_STATUS status = mapBaseRegister (physicalAddress, inValidBlockSize, fileName, &pointer);
-    CU_ASSERT_NOT_EQUAL(status, MAPPER_SUCCESS)
-    CU_ASSERT_EQUAL(status, MAPPER_BLOCK_SIZE_ERROR)
-
-    inValidBlockSize = 4097;
-    status = mapBaseRegister (physicalAddress, inValidBlockSize, fileName, &pointer);
-    CU_ASSERT_NOT_EQUAL(status, MAPPER_SUCCESS)
-    CU_ASSERT_EQUAL(status, MAPPER_BLOCK_SIZE_ERROR)
-}
-
-void testFailMapWhenFileNameIsNotValid (void) {
-    char *invalidNullFileName = NULL;
-    MAPPER_STATUS status = mapBaseRegister (physicalAddress, blockSize, invalidNullFileName, &pointer);
-    CU_ASSERT_NOT_EQUAL(status, MAPPER_SUCCESS)
-    CU_ASSERT_EQUAL(status, MAPPER_FILE_NAME_ERROR)
-
-    char *inValidFileName = "/dev/invalidFile";
-    status = mapBaseRegister (physicalAddress, blockSize, inValidFileName, &pointer);
+void testMapBaseRegister (void) {
+    char *inValidFileName = NULL;
+    MAPPER_STATUS status = mapBaseRegister (inValidFileName, blockSize, physicalAddress, &pointer);
     CU_ASSERT_NOT_EQUAL(status, MAPPER_SUCCESS)
     CU_ASSERT_EQUAL(status, MAPPER_FILE_OPEN_ERROR)
-}
 
-void testSuccessMapBaseRegister (void) {
-    MAPPER_STATUS status = mapBaseRegister (physicalAddress, blockSize, fileName, &pointer);
+    inValidFileName = "/dev/invalidFile";
+    status = mapBaseRegister (inValidFileName, blockSize, physicalAddress, &pointer);
+    CU_ASSERT_NOT_EQUAL(status, MAPPER_SUCCESS)
+    CU_ASSERT_EQUAL(status, MAPPER_FILE_OPEN_ERROR)
+
+    size_t invalidBlockSize = 0;
+    status = mapBaseRegister (fileName, invalidBlockSize, physicalAddress, &pointer);
+    CU_ASSERT_NOT_EQUAL(status, MAPPER_SUCCESS)
+    CU_ASSERT_EQUAL(status, MAPPER_MEMORY_MAP_ERROR)
+
+    off_t inValidPhysicalAddress = -1;
+    status = mapBaseRegister (fileName, blockSize, inValidPhysicalAddress, &pointer);
+    CU_ASSERT_NOT_EQUAL(status, MAPPER_SUCCESS)
+    CU_ASSERT_EQUAL(status, MAPPER_MEMORY_MAP_ERROR)
+
+    status = mapBaseRegister (fileName, blockSize, physicalAddress, &pointer);
     CU_ASSERT_EQUAL(status, MAPPER_SUCCESS)
 }
 
-void testFailUnmapWhenBlockSizeIsNotValid (void) {
-    size_t inValidBlockSize = 0;
-    MAPPER_STATUS status = unmapBaseRegister (inValidBlockSize, pointer);
+void testUnmapBaseRegister (void) {
+    void *invalidPointer = (void *) -1;
+    MAPPER_STATUS status = unmapBaseRegister (invalidPointer, blockSize);
     CU_ASSERT_NOT_EQUAL(status, MAPPER_SUCCESS)
-    CU_ASSERT_EQUAL(status, MAPPER_BLOCK_SIZE_ERROR)
+    CU_ASSERT_EQUAL(status, MAPPER_MEMORY_UNMAP_ERROR)
 
-    inValidBlockSize = 4097;
-    status = unmapBaseRegister (inValidBlockSize, pointer);
-    CU_ASSERT_NOT_EQUAL(status, MAPPER_SUCCESS)
-    CU_ASSERT_EQUAL(status, MAPPER_BLOCK_SIZE_ERROR)
-}
-
-void testFailUnmapWhenPointerIsNotValid (void) {
-    void *invalidPointer = NULL;
-    MAPPER_STATUS status = unmapBaseRegister (blockSize, invalidPointer);
-    CU_ASSERT_NOT_EQUAL(status, MAPPER_SUCCESS)
-    CU_ASSERT_EQUAL(status, MAPPER_POINTER_ERROR)
-}
-
-void testSuccessUnmapBaseRegister (void) {
-    MAPPER_STATUS status = unmapBaseRegister (blockSize, pointer);
+    status = unmapBaseRegister (pointer, blockSize);
     CU_ASSERT_EQUAL(status, MAPPER_SUCCESS)
 }

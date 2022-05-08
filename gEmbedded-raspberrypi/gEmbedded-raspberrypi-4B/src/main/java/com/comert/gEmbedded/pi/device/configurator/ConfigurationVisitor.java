@@ -78,7 +78,6 @@ public final class ConfigurationVisitor {
         GPIOController.setPinFunction(i2CMasterConfigurator.getSDAPin(), i2CMasterConfigurator.getSDAPinFunction());
         GPIOController.setPinFunction(i2CMasterConfigurator.getSCLPin(), i2CMasterConfigurator.getSCLPinFunction());
         I2CMasterController.setMaster(i2CMasterConfigurator.getBus(), i2CMasterConfigurator.getBusClockInHertz(), i2CMasterConfigurator.getBusClockStretchTimeout());
-
     }
 
     private void checkIfPinIsNotSupportedAndIsAlreadyRegistered(final Pin pin) throws PinConfigurationException {

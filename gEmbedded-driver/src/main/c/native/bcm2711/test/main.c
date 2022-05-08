@@ -10,7 +10,7 @@ int main() {
     if (CUE_SUCCESS != CU_initialize_registry())
         return CU_get_error();
 
-    //MAPPER_TEST
+    MAPPER_TEST
     GPIO_TEST
 
     CU_basic_set_mode(CU_BRM_VERBOSE);

@@ -3,24 +3,8 @@
 #include <sys/mman.h>
 #include "mapper.h"
 
-#define INVALID_PHYSICAL_ADDRESS    (0x0)
-#define MIN_BLOCK_SIZE              (1)
-#define MAX_BLOCK_SIZE              (4096)
-
 MAPPER_STATUS
-mapBaseRegister (const off_t physicalAddress, const size_t blockSize, const char *fileName, void **pointer) {
-
-    if (physicalAddress == INVALID_PHYSICAL_ADDRESS) {
-        return MAPPER_PHYSICAL_ADDRESS_ERROR;
-    }
-
-    if (blockSize < MIN_BLOCK_SIZE || blockSize > MAX_BLOCK_SIZE) {
-        return MAPPER_BLOCK_SIZE_ERROR;
-    }
-
-    if (fileName == NULL) {
-        return MAPPER_FILE_NAME_ERROR;
-    }
+mapBaseRegister (const char *fileName, const size_t blockSize, const off_t physicalAddress, void **pointer) {
 
     const int memoryFileDescriptor = open (fileName, O_RDWR | O_SYNC);
 
@@ -41,15 +25,7 @@ mapBaseRegister (const off_t physicalAddress, const size_t blockSize, const char
 
 }
 
-MAPPER_STATUS unmapBaseRegister (const size_t blockSize, void *pointer) {
-
-    if (blockSize < MIN_BLOCK_SIZE || blockSize > MAX_BLOCK_SIZE) {
-        return MAPPER_BLOCK_SIZE_ERROR;
-    }
-
-    if (pointer == NULL) {
-        return MAPPER_POINTER_ERROR;
-    }
+MAPPER_STATUS unmapBaseRegister (void *pointer, const size_t blockSize) {
 
     const int memoryUnmap = munmap (pointer, blockSize);
 

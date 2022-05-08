@@ -5,6 +5,7 @@
 
 int initGpioSuite(void);
 int cleanGpioSuite(void);
+void testPinFunction();
 void testWrite(void);
 
 #define GPIO_TEST  \

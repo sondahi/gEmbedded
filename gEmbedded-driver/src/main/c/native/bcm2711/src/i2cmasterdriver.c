@@ -182,7 +182,7 @@ I2C_STATUS i2cMasterDriverSetup () {
     void *pointer;
     register MAPPER_STATUS mapperStatus;
 
-    mapperStatus = mapBaseRegister (BSC0_BASE_ADDRESS, BSC_BLOCK_SIZE, MEMORY_FILE_NAME, &pointer);
+    mapperStatus = mapBaseRegister (MEMORY_FILE_NAME, BSC_BLOCK_SIZE, BSC0_BASE_ADDRESS, &pointer);
     if (mapperStatus == MAPPER_FILE_OPEN_ERROR) {
         return I2C_BUS_DEV_FILE_OPEN_ERROR;
     } else if (mapperStatus == MAPPER_MEMORY_MAP_ERROR) {
@@ -191,7 +191,7 @@ I2C_STATUS i2cMasterDriverSetup () {
         bscRegs[0] = (BSCRegs *) pointer;
     }
 
-    mapperStatus = mapBaseRegister (BSC1_BASE_ADDRESS, BSC_BLOCK_SIZE, MEMORY_FILE_NAME, &pointer);
+    mapperStatus = mapBaseRegister (MEMORY_FILE_NAME, BSC_BLOCK_SIZE, BSC1_BASE_ADDRESS, &pointer);
     if (mapperStatus == MAPPER_FILE_OPEN_ERROR) {
         return I2C_BUS_DEV_FILE_OPEN_ERROR;
     } else if (mapperStatus == MAPPER_MEMORY_MAP_ERROR) {
@@ -219,14 +219,14 @@ I2C_STATUS i2cMasterDriverShutdown () {
 
     registers = bscRegs[0];
 
-    register MAPPER_STATUS mapperStatus = unmapBaseRegister (BSC_BLOCK_SIZE, (void *) registers);
+    register MAPPER_STATUS mapperStatus = unmapBaseRegister ((void *) registers, BSC_BLOCK_SIZE);
     if (mapperStatus == MAPPER_MEMORY_UNMAP_ERROR) {
         return I2C_BUS_MEM_UNMAP_ERROR;
     }
 
     registers = bscRegs[1];
 
-    mapperStatus = unmapBaseRegister (BSC_BLOCK_SIZE, (void *) registers);
+    mapperStatus = unmapBaseRegister ((void *) registers, BSC_BLOCK_SIZE);
     if (mapperStatus == MAPPER_MEMORY_UNMAP_ERROR) {
         return I2C_BUS_MEM_UNMAP_ERROR;
     }
