@@ -10,10 +10,18 @@ extern "C" {
 /*
  * Class:     com_comert_gEmbedded_nativeinterface_I2CMasterController
  * Method:    setMaster
- * Signature: (Lcom/comert/gEmbedded/api/device/i2c/master/I2CBus;Ljava/lang/String;Ljava/lang/String;II)V
+ * Signature: (Lcom/comert/gEmbedded/api/device/i2c/master/I2CBus;II)V
  */
 JNIEXPORT void JNICALL Java_com_comert_gEmbedded_nativeinterface_I2CMasterController_setMaster
-  (JNIEnv *, jclass, jobject, jstring, jstring, jint, jint);
+  (JNIEnv *, jclass, jobject, jint, jint);
+
+/*
+ * Class:     com_comert_gEmbedded_nativeinterface_I2CMasterController
+ * Method:    getRegisterSelector
+ * Signature: (Lcom/comert/gEmbedded/api/device/gpio/pin/Pin;)I
+ */
+JNIEXPORT jint JNICALL Java_com_comert_gEmbedded_nativeinterface_I2CMasterController_getRegisterSelector
+  (JNIEnv *, jclass, jobject);
 
 /*
  * Class:     com_comert_gEmbedded_nativeinterface_I2CMasterController

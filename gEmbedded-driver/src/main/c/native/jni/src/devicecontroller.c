@@ -3,89 +3,57 @@
 #include "gpiodriver.h"
 #include "i2cmasterdriver.h"
 
-JNIEXPORT void JNICALL Java_com_comert_gEmbedded_nativeinterface_DeviceController_setUpJNIDriver
-        (JNIEnv *env, const jclass DeviceController, const jstring jniExceptionClass) {
+JNIEXPORT void JNICALL Java_com_comert_gEmbedded_nativeinterface_DeviceController_setupDevice
+        (JNIEnv *env, jclass DeviceController){
 
-    const register jclass runtimeException = (jclass) (*env)->FindClass (env, "java/lang/RuntimeException");
-
-    const char *jniExceptionClazz = (*env)->GetStringUTFChars (env, jniExceptionClass, JNI_FALSE);
-    if (jniExceptionClazz == NULL) {
-        char message[250];
-        sprintf (message, "JNIException class could not be pointed");
-        (*env)->ThrowNew (env, runtimeException, message);
-        (*env)->ReleaseStringUTFChars (env, jniExceptionClass, jniExceptionClazz);
+    const register JNI_STATUS jniStatus = jniSetup (env);
+    if(jniStatus != JNI_SUCCESS){
+        const register jclass runtimeExceptionClazz = (*env)->FindClass(env, "java/lang/RuntimeException");
+        const char *message = "JNI setup failed";
+        (*env)->ThrowNew(env, runtimeExceptionClazz, message);
         return;
     }
-
-    const register JNI_STATUS javaStatus = jniSetup (env, jniExceptionClazz);
-    if (javaStatus == JNI_CLASSPATH_ERROR) {
-        char message[250];
-        sprintf (message, "JNIException class could not be found in classpath");
-        (*env)->ThrowNew (env, runtimeException, message);
-        (*env)->ReleaseStringUTFChars (env, jniExceptionClass, jniExceptionClazz);
-        return;
-    }
-    if (javaStatus == JNI_POINTER_ERROR) {
-        char message[250];
-        sprintf (message, "JNIException class could not be pointed");
-        (*env)->ThrowNew (env, runtimeException, message);
-        (*env)->ReleaseStringUTFChars (env, jniExceptionClass, jniExceptionClazz);
-        return;
-    }
-
-    (*env)->ReleaseStringUTFChars (env, jniExceptionClass, jniExceptionClazz);
-
-}
-
-JNIEXPORT void JNICALL Java_com_comert_gEmbedded_nativeinterface_DeviceController_shutDownJNIDriver
-        (JNIEnv *env, const jclass DeviceController) {
-
-    jniShutdown (env);
-
-}
-
-JNIEXPORT void JNICALL Java_com_comert_gEmbedded_nativeinterface_DeviceController_setUpGpioDriver
-        (JNIEnv *env, const jclass DeviceController) {
 
     const register GPIO_STATUS gpioStatus = gpioDriverSetup();
-
     const register GPIO_STATUS gpioExceptionStatus = gpioStatusCheck (env, gpioStatus);
     if (gpioExceptionStatus == GPIO_EXCEPTION_OCCURRED) {
         return;
     }
+
+    const register I2C_STATUS i2CStatus = i2cMasterDriverSetup ();
+    const register I2C_STATUS i2cExceptionStatus = i2cStatusCheck (env, i2CStatus);
+    if (i2cExceptionStatus == I2C_EXCEPTION_OCCURRED) {
+        return;
+    }
+
 }
 
-JNIEXPORT void JNICALL Java_com_comert_gEmbedded_nativeinterface_DeviceController_shutDownGpioDriver
-        (JNIEnv *env, const jclass DeviceController) {
+JNIEXPORT void JNICALL Java_com_comert_gEmbedded_nativeinterface_DeviceController_shutdownDevice
+        (JNIEnv *env, jclass DeviceController){
+
+    const register I2C_STATUS i2CStatus = i2cMasterDriverShutdown ();
+    const register I2C_STATUS i2cExceptionStatus = i2cStatusCheck (env, i2CStatus);
+    if (i2cExceptionStatus == I2C_EXCEPTION_OCCURRED) {
+        return;
+    }
 
     const register GPIO_STATUS gpioStatus = gpioDriverShutdown ();
-
     const register GPIO_STATUS gpioExceptionStatus = gpioStatusCheck (env, gpioStatus);
     if (gpioExceptionStatus == GPIO_EXCEPTION_OCCURRED) {
         return;
     }
 
+    jniShutdown (env);
 }
 
-JNIEXPORT void JNICALL Java_com_comert_gEmbedded_nativeinterface_DeviceController_setUpI2CMasterDriver
-        (JNIEnv *env, const jclass DeviceController, const jint busNumber) {
+JNIEXPORT jobject JNICALL Java_com_comert_gEmbedded_nativeinterface_DeviceController_getNotSupportedPins
+        (JNIEnv *env, jclass DeviceController){
 
-    const register I2C_STATUS i2CStatus = i2cMasterDriverSetup (busNumber);
-
-    const register I2C_STATUS i2cExceptionStatus = i2cStatusCheck (env, i2CStatus);
-    if (i2cExceptionStatus == I2C_EXCEPTION_OCCURRED) {
-        return;
-    }
+    return NULL;
 }
 
-JNIEXPORT void JNICALL Java_com_comert_gEmbedded_nativeinterface_DeviceController_shutDownI2CMasterDriver
-        (JNIEnv *env, jclass DeviceController, const jint busNumber) {
+JNIEXPORT jobject JNICALL Java_com_comert_gEmbedded_nativeinterface_DeviceController_getNotSupportedI2CBusses
+        (JNIEnv *env, jclass DeviceController){
 
-    const register I2C_STATUS i2CStatus = i2cMasterDriverShutdown (busNumber);
-
-    const register I2C_STATUS i2cExceptionStatus = i2cStatusCheck (env, i2CStatus);
-    if (i2cExceptionStatus == I2C_EXCEPTION_OCCURRED) {
-        return;
-    }
-
+    return NULL;
 }

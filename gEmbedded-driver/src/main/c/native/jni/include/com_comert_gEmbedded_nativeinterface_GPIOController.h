@@ -10,26 +10,42 @@ extern "C" {
 /*
  * Class:     com_comert_gEmbedded_nativeinterface_GPIOController
  * Method:    setPinFunction
- * Signature: (Lcom/comert/gEmbedded/api/device/gpio/pin/Pin;Lcom/comert/gEmbedded/api/device/gpio/pin/PinFunction;Ljava/lang/String;Ljava/lang/String;)V
+ * Signature: (Lcom/comert/gEmbedded/api/device/gpio/pin/Pin;Lcom/comert/gEmbedded/api/device/gpio/pin/PinFunction;)V
  */
 JNIEXPORT void JNICALL Java_com_comert_gEmbedded_nativeinterface_GPIOController_setPinFunction
-  (JNIEnv *, jclass, jobject, jobject, jstring, jstring);
+  (JNIEnv *, jclass, jobject, jobject);
 
 /*
  * Class:     com_comert_gEmbedded_nativeinterface_GPIOController
  * Method:    setPullUpDownStatus
- * Signature: (Lcom/comert/gEmbedded/api/device/gpio/pin/Pin;Lcom/comert/gEmbedded/api/device/gpio/pin/PullUpDownStatus;Ljava/lang/String;Ljava/lang/String;)V
+ * Signature: (Lcom/comert/gEmbedded/api/device/gpio/pin/Pin;Lcom/comert/gEmbedded/api/device/gpio/pin/PullUpDownStatus;)V
  */
 JNIEXPORT void JNICALL Java_com_comert_gEmbedded_nativeinterface_GPIOController_setPullUpDownStatus
-  (JNIEnv *, jclass, jobject, jobject, jstring, jstring);
+  (JNIEnv *, jclass, jobject, jobject);
 
 /*
  * Class:     com_comert_gEmbedded_nativeinterface_GPIOController
  * Method:    setEventDetectStatus
- * Signature: (Lcom/comert/gEmbedded/api/device/gpio/pin/Pin;Lcom/comert/gEmbedded/api/device/gpio/pin/EventDetectStatus;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+ * Signature: (Lcom/comert/gEmbedded/api/device/gpio/pin/Pin;Lcom/comert/gEmbedded/api/device/gpio/pin/EventDetectStatus;)V
  */
 JNIEXPORT void JNICALL Java_com_comert_gEmbedded_nativeinterface_GPIOController_setEventDetectStatus
-  (JNIEnv *, jclass, jobject, jobject, jstring, jstring, jstring);
+  (JNIEnv *, jclass, jobject, jobject);
+
+/*
+ * Class:     com_comert_gEmbedded_nativeinterface_GPIOController
+ * Method:    getRegisterSelector
+ * Signature: (Lcom/comert/gEmbedded/api/device/gpio/pin/Pin;)I
+ */
+JNIEXPORT jint JNICALL Java_com_comert_gEmbedded_nativeinterface_GPIOController_getRegisterSelector
+  (JNIEnv *, jclass, jobject);
+
+/*
+ * Class:     com_comert_gEmbedded_nativeinterface_GPIOController
+ * Method:    getPinSet
+ * Signature: (Lcom/comert/gEmbedded/api/device/gpio/pin/Pin;)I
+ */
+JNIEXPORT jint JNICALL Java_com_comert_gEmbedded_nativeinterface_GPIOController_getPinSet
+  (JNIEnv *, jclass, jobject);
 
 /*
  * Class:     com_comert_gEmbedded_nativeinterface_GPIOController

@@ -3,12 +3,11 @@
 #include "jnicontroller.h"
 
 JNIEXPORT void JNICALL Java_com_comert_gEmbedded_nativeinterface_I2CMasterController_setMaster
-(JNIEnv *env, const jclass I2CMasterController, jobject bus, const jstring methodName, const jstring methodSignature,
- const jint busClockInHertz, const jint busClockStretchTimeout) {
+(JNIEnv *env, const jclass I2CMasterController, jobject bus, const jint busClockInHertz, const jint busClockStretchTimeout) {
 
     jint busNumber;
 
-    const register JNI_STATUS busStatus = jniController.getConstantDigit(env, bus, methodName, methodSignature, &busNumber);
+    const register JNI_STATUS busStatus = jniController.getConstantDigit(env, bus, &busNumber);
     if(busStatus == JNI_EXCEPTION_OCCURRED){
         return;
     }
@@ -19,6 +18,21 @@ JNIEXPORT void JNICALL Java_com_comert_gEmbedded_nativeinterface_I2CMasterContro
     if( i2cExceptionStatus == I2C_EXCEPTION_OCCURRED){
         return;
     }
+
+}
+
+JNIEXPORT jint JNICALL Java_com_comert_gEmbedded_nativeinterface_I2CMasterController_getRegisterSelector
+        (JNIEnv *env, jclass I2CMasterController, jobject bus){
+
+    jint busNumber, registerSelector;
+
+    const register JNI_STATUS busStatus = jniController.getConstantDigit(env, bus, &busNumber);
+    if(busStatus == JNI_EXCEPTION_OCCURRED){
+        return 0;
+    }
+
+    registerSelector = i2CMasterDriver.getRegisterSelector(busNumber);
+    return registerSelector;
 
 }
 

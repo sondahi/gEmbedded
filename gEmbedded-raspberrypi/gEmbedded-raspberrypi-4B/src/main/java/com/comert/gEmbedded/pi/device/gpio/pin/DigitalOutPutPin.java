@@ -23,8 +23,8 @@ public final class DigitalOutPutPin extends OutPutPinImpl {
     public DigitalOutPutPin(OutPutPinConfigurator outPutPinConfigurator) {
         pin = outPutPinConfigurator.getPin();
 
-        registerSelector = (pin.getDigit() / 32);
-        pinSet = (1 << (pin.getDigit() % 32));
+        registerSelector = GPIOController.getRegisterSelector(pin);
+        pinSet = GPIOController.getPinSet(pin);
 
         createdDigitalOutPutPins.put(pin, this);
 

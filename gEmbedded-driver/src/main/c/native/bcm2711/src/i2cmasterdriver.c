@@ -70,6 +70,10 @@ static I2C_STATUS configure_ (const jint busSelector, const jint busClockInHertz
 
 }
 
+static jint getRegisterSelector_ (jint busNumber){
+    return busNumber;
+}
+
 static I2C_STATUS sendData_ (struct MessageToSend *sMessage) {
 
     register int count = 0;
@@ -173,29 +177,31 @@ static I2C_STATUS sendAndReceiveData_ (struct MessageToSendAndReceive *srMessage
 
 }
 
-I2C_STATUS i2cMasterDriverSetup (const jint busSelector) {
+I2C_STATUS i2cMasterDriverSetup () {
 
     void *pointer;
     register MAPPER_STATUS mapperStatus;
 
-    off_t physicalAddress;
-
-    if(busSelector == 0){
-        physicalAddress = BSC0_BASE_ADDRESS;
-    } else {
-        physicalAddress = BSC1_BASE_ADDRESS;
-    }
-
-    mapperStatus = mapBaseRegister (physicalAddress, BSC_BLOCK_SIZE, MEMORY_FILE_NAME, &pointer);
+    mapperStatus = mapBaseRegister (BSC0_BASE_ADDRESS, BSC_BLOCK_SIZE, MEMORY_FILE_NAME, &pointer);
     if (mapperStatus == MAPPER_FILE_OPEN_ERROR) {
         return I2C_BUS_DEV_FILE_OPEN_ERROR;
     } else if (mapperStatus == MAPPER_MEMORY_MAP_ERROR) {
         return I2C_BUS_MEM_MAP_ERROR;
     } else {
-        bscRegs[busSelector] = (BSCRegs *) pointer;
+        bscRegs[0] = (BSCRegs *) pointer;
+    }
+
+    mapperStatus = mapBaseRegister (BSC1_BASE_ADDRESS, BSC_BLOCK_SIZE, MEMORY_FILE_NAME, &pointer);
+    if (mapperStatus == MAPPER_FILE_OPEN_ERROR) {
+        return I2C_BUS_DEV_FILE_OPEN_ERROR;
+    } else if (mapperStatus == MAPPER_MEMORY_MAP_ERROR) {
+        return I2C_BUS_MEM_MAP_ERROR;
+    } else {
+        bscRegs[1] = (BSCRegs *) pointer;
     }
 
     i2CMasterDriver.configure = configure_;
+    i2CMasterDriver.getRegisterSelector = getRegisterSelector_;
     i2CMasterDriver.sendData = sendData_;
     i2CMasterDriver.receiveData = receiveData_;
     i2CMasterDriver.sendAndReceiveData = sendAndReceiveData_;
@@ -204,13 +210,23 @@ I2C_STATUS i2cMasterDriverSetup (const jint busSelector) {
 
 }
 
-I2C_STATUS i2cMasterDriverShutdown (const jint busSelector) {
+I2C_STATUS i2cMasterDriverShutdown () {
 
-    bscRegs[busSelector]->C = C_I2C_DIS;
+    bscRegs[0]->C = C_I2C_DIS;
+    bscRegs[1]->C = C_I2C_DIS;
 
-    BSCRegs *registers = bscRegs[busSelector];
+    BSCRegs *registers;
 
-    const register MAPPER_STATUS mapperStatus = unmapBaseRegister (BSC_BLOCK_SIZE, (void *) registers);
+    registers = bscRegs[0];
+
+    register MAPPER_STATUS mapperStatus = unmapBaseRegister (BSC_BLOCK_SIZE, (void *) registers);
+    if (mapperStatus == MAPPER_MEMORY_UNMAP_ERROR) {
+        return I2C_BUS_MEM_UNMAP_ERROR;
+    }
+
+    registers = bscRegs[1];
+
+    mapperStatus = unmapBaseRegister (BSC_BLOCK_SIZE, (void *) registers);
     if (mapperStatus == MAPPER_MEMORY_UNMAP_ERROR) {
         return I2C_BUS_MEM_UNMAP_ERROR;
     }

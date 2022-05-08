@@ -11,6 +11,7 @@ import com.comert.gEmbedded.api.device.gpio.pin.configurator.OutPutPinConfigurat
 import com.comert.gEmbedded.api.device.gpio.pin.configurator.PWMPinConfigurator;
 import com.comert.gEmbedded.api.device.i2c.master.I2CBus;
 import com.comert.gEmbedded.api.device.i2c.master.configurator.I2CMasterConfigurator;
+import com.comert.gEmbedded.nativeinterface.DeviceController;
 import com.comert.gEmbedded.nativeinterface.GPIOController;
 import com.comert.gEmbedded.nativeinterface.I2CMasterController;
 
@@ -20,11 +21,6 @@ import java.util.Set;
 public final class ConfigurationVisitor {
 
     private static final ConfigurationVisitor INSTANCE;
-    private static final String GPIO_EVENT_FILE = "/dev/gpiochip0";
-    private static final String DIGIT_METHOD_NAME = "getDigit";
-    private static final String DIGIT_METHOD_SIGNATURE = "()I";
-    private static final String TEXT_METHOD_NAME = "getText";
-    private static final String TEXT_METHOD_SIGNATURE = "()Ljava/lang/String;";
 
     static {
         INSTANCE = new ConfigurationVisitor();
@@ -52,26 +48,26 @@ public final class ConfigurationVisitor {
         checkIfPinIsNotSupportedAndIsAlreadyRegistered(inPutPinConfigurator.getPin());
 
         if (inPutPinConfigurator.isEventConfigured()) {
-            GPIOController.setEventDetectStatus(inPutPinConfigurator.getPin(), inPutPinConfigurator.getEventDetectStatus(), DIGIT_METHOD_NAME, DIGIT_METHOD_SIGNATURE, GPIO_EVENT_FILE);
+            GPIOController.setEventDetectStatus(inPutPinConfigurator.getPin(), inPutPinConfigurator.getEventDetectStatus());
         } else {
-            GPIOController.setPinFunction(inPutPinConfigurator.getPin(), inPutPinConfigurator.getPinFunction(), DIGIT_METHOD_NAME, DIGIT_METHOD_SIGNATURE);
+            GPIOController.setPinFunction(inPutPinConfigurator.getPin(), inPutPinConfigurator.getPinFunction());
         }
 
         if (inPutPinConfigurator.getPullUpDownStatus() != PullUpDownStatus.NONE) {
-            GPIOController.setPullUpDownStatus(inPutPinConfigurator.getPin(), inPutPinConfigurator.getPullUpDownStatus(), DIGIT_METHOD_NAME, DIGIT_METHOD_SIGNATURE);
+            GPIOController.setPullUpDownStatus(inPutPinConfigurator.getPin(), inPutPinConfigurator.getPullUpDownStatus());
         }
     }
 
     public synchronized void accept(OutPutPinConfigurator outPutPinConfigurator) throws PinConfigurationException, JNIException {
         checkIfPinIsNotSupportedAndIsAlreadyRegistered(outPutPinConfigurator.getPin());
 
-        GPIOController.setPinFunction(outPutPinConfigurator.getPin(), outPutPinConfigurator.getPinFunction(), DIGIT_METHOD_NAME, DIGIT_METHOD_SIGNATURE);
+        GPIOController.setPinFunction(outPutPinConfigurator.getPin(), outPutPinConfigurator.getPinFunction());
     }
 
     public synchronized void accept(PWMPinConfigurator pwmPinConfigurator) throws PinConfigurationException, JNIException {
         checkIfPinIsNotSupportedAndIsAlreadyRegistered(pwmPinConfigurator.getPin());
 
-        GPIOController.setPinFunction(pwmPinConfigurator.getPin(), pwmPinConfigurator.getPinFunction(), DIGIT_METHOD_NAME, DIGIT_METHOD_SIGNATURE);
+        GPIOController.setPinFunction(pwmPinConfigurator.getPin(), pwmPinConfigurator.getPinFunction());
     }
 
     public synchronized void accept(I2CMasterConfigurator i2CMasterConfigurator) throws PinConfigurationException, JNIException, I2CMasterConfigurationException {
@@ -79,9 +75,9 @@ public final class ConfigurationVisitor {
         checkIfPinIsNotSupportedAndIsAlreadyRegistered(i2CMasterConfigurator.getSCLPin());
         checkIfBusIsNotSupportedAndIsAlreadyRegistered(i2CMasterConfigurator.getBus());
 
-        GPIOController.setPinFunction(i2CMasterConfigurator.getSDAPin(), i2CMasterConfigurator.getSDAPinFunction(), DIGIT_METHOD_NAME, DIGIT_METHOD_SIGNATURE);
-        GPIOController.setPinFunction(i2CMasterConfigurator.getSCLPin(), i2CMasterConfigurator.getSCLPinFunction(), DIGIT_METHOD_NAME, DIGIT_METHOD_SIGNATURE);
-        I2CMasterController.setMaster(i2CMasterConfigurator.getBus(), DIGIT_METHOD_NAME, DIGIT_METHOD_SIGNATURE, i2CMasterConfigurator.getBusClockInHertz(), i2CMasterConfigurator.getBusClockStretchTimeout());
+        GPIOController.setPinFunction(i2CMasterConfigurator.getSDAPin(), i2CMasterConfigurator.getSDAPinFunction());
+        GPIOController.setPinFunction(i2CMasterConfigurator.getSCLPin(), i2CMasterConfigurator.getSCLPinFunction());
+        I2CMasterController.setMaster(i2CMasterConfigurator.getBus(), i2CMasterConfigurator.getBusClockInHertz(), i2CMasterConfigurator.getBusClockStretchTimeout());
 
     }
 

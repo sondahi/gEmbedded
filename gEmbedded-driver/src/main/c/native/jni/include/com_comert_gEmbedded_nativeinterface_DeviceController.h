@@ -9,51 +9,35 @@ extern "C" {
 #endif
 /*
  * Class:     com_comert_gEmbedded_nativeinterface_DeviceController
- * Method:    setUpJNIDriver
- * Signature: (Ljava/lang/String;)V
- */
-JNIEXPORT void JNICALL Java_com_comert_gEmbedded_nativeinterface_DeviceController_setUpJNIDriver
-  (JNIEnv *, jclass, jstring);
-
-/*
- * Class:     com_comert_gEmbedded_nativeinterface_DeviceController
- * Method:    shutDownJNIDriver
+ * Method:    setupDevice
  * Signature: ()V
  */
-JNIEXPORT void JNICALL Java_com_comert_gEmbedded_nativeinterface_DeviceController_shutDownJNIDriver
+JNIEXPORT void JNICALL Java_com_comert_gEmbedded_nativeinterface_DeviceController_setupDevice
   (JNIEnv *, jclass);
 
 /*
  * Class:     com_comert_gEmbedded_nativeinterface_DeviceController
- * Method:    setUpGpioDriver
+ * Method:    shutdownDevice
  * Signature: ()V
  */
-JNIEXPORT void JNICALL Java_com_comert_gEmbedded_nativeinterface_DeviceController_setUpGpioDriver
+JNIEXPORT void JNICALL Java_com_comert_gEmbedded_nativeinterface_DeviceController_shutdownDevice
   (JNIEnv *, jclass);
 
 /*
  * Class:     com_comert_gEmbedded_nativeinterface_DeviceController
- * Method:    shutDownGpioDriver
- * Signature: ()V
+ * Method:    getNotSupportedPins
+ * Signature: ()Ljava/util/Set;
  */
-JNIEXPORT void JNICALL Java_com_comert_gEmbedded_nativeinterface_DeviceController_shutDownGpioDriver
+JNIEXPORT jobject JNICALL Java_com_comert_gEmbedded_nativeinterface_DeviceController_getNotSupportedPins
   (JNIEnv *, jclass);
 
 /*
  * Class:     com_comert_gEmbedded_nativeinterface_DeviceController
- * Method:    setUpI2CMasterDriver
- * Signature: (I)V
+ * Method:    getNotSupportedI2CBusses
+ * Signature: ()Ljava/util/Set;
  */
-JNIEXPORT void JNICALL Java_com_comert_gEmbedded_nativeinterface_DeviceController_setUpI2CMasterDriver
-  (JNIEnv *, jclass, jint);
-
-/*
- * Class:     com_comert_gEmbedded_nativeinterface_DeviceController
- * Method:    shutDownI2CMasterDriver
- * Signature: (I)V
- */
-JNIEXPORT void JNICALL Java_com_comert_gEmbedded_nativeinterface_DeviceController_shutDownI2CMasterDriver
-  (JNIEnv *, jclass, jint);
+JNIEXPORT jobject JNICALL Java_com_comert_gEmbedded_nativeinterface_DeviceController_getNotSupportedI2CBusses
+  (JNIEnv *, jclass);
 
 #ifdef __cplusplus
 }

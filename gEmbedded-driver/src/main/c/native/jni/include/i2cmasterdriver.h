@@ -46,6 +46,7 @@ struct MessageToSendAndReceive {
 
 typedef struct I2CMaster_ {
     I2C_STATUS (*configure)(jint busSelector, jint busClockInHertz, jint busClockStretchTimeout);
+    jint (*getRegisterSelector) (jint busNumber);
     I2C_STATUS (*sendData)(struct MessageToSend *sMessage);
     I2C_STATUS (*receiveData)(struct MessageToReceive *rMessage);
     I2C_STATUS (*sendAndReceiveData)(struct MessageToSendAndReceive *srMessage);
@@ -53,8 +54,8 @@ typedef struct I2CMaster_ {
 
 extern I2CMaster i2CMasterDriver;
 
-I2C_STATUS i2cMasterDriverSetup(jint busSelector);
-I2C_STATUS i2cMasterDriverShutdown(jint busSelector);
+I2C_STATUS i2cMasterDriverSetup();
+I2C_STATUS i2cMasterDriverShutdown();
 I2C_STATUS i2cStatusCheck (JNIEnv *, I2C_STATUS);
 
 #endif

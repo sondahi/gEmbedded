@@ -1,9 +1,12 @@
 package com.comert.gEmbedded.nativeinterface;
 
 import com.comert.gEmbedded.api.device.exception.JNIException;
+import com.comert.gEmbedded.api.device.gpio.pin.Pin;
+import com.comert.gEmbedded.api.device.i2c.master.I2CBus;
 import com.comert.gEmbedded.nativeinterface.util.NativeUtils;
 
 import java.io.IOException;
+import java.util.Set;
 
 public abstract class DeviceController {
 
@@ -38,19 +41,11 @@ public abstract class DeviceController {
     private DeviceController() {
     }
 
-    public static void loadLibrary() throws JNIException{
+    public static native void setupDevice() throws JNIException;
 
-    }
-    public static native void setUpJNIDriver(String jniExceptionClass) throws JNIException;
+    public static native void shutdownDevice() throws JNIException;
 
-    public static native void shutDownJNIDriver() throws JNIException;
-
-    public static native void setUpGpioDriver() throws JNIException;
-
-    public static native void shutDownGpioDriver() throws JNIException;
-
-    public static native void setUpI2CMasterDriver(int busNumber) throws JNIException;
-
-    public static native void shutDownI2CMasterDriver(int busNumber) throws JNIException;
+    public static native Set<Pin> getNotSupportedPins();
+    public static native Set<I2CBus> getNotSupportedI2CBusses();
 
 }

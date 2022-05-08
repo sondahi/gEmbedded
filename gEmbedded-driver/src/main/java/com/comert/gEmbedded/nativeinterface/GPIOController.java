@@ -11,24 +11,28 @@ public abstract class GPIOController {
     private GPIOController() {
     }
 
-    public static native void setPinFunction(Pin pin, PinFunction pinFunction, String enumMethodName, String enumMethodSignature) throws JNIException;
+    public static native void setPinFunction(Pin pin, PinFunction pinFunction) throws JNIException;
 
-    public static native void setPullUpDownStatus(Pin pin, PullUpDownStatus pullUpDownStatus, String enumMethodName, String enumMethodSignature) throws JNIException;
+    public static native void setPullUpDownStatus(Pin pin, PullUpDownStatus pullUpDownStatus) throws JNIException;
 
-    public static native void setEventDetectStatus(Pin pin, EventDetectStatus eventDetectStatus, String enumMethodName, String enumMethodSignature, String fileName) throws JNIException;
+    public static native void setEventDetectStatus(Pin pin, EventDetectStatus eventDetectStatus) throws JNIException;
 
-    public static native boolean isHigh(final int registerSelector, final int pinSet);
+    public static native int getRegisterSelector(Pin pin);
 
-    public static native boolean isLow(final int registerSelector, final int pinSet);
+    public static native int getPinSet(Pin pin);
 
-    public static native void write(final int registerSelector, final int pinSet);
+    public static native boolean isHigh(int registerSelector, int pinSet);
 
-    public static native void clear(final int registerSelector, final int pinSet);
+    public static native boolean isLow(int registerSelector, int pinSet);
 
-    public static native void pulse(final int registerSelector, final int pinSet, final int highSleepTime, final int lowSleepTime);
+    public static native void write(int registerSelector, int pinSet);
 
-    public static native int poll(final int pinNumber, final int timeoutInMilSec);
+    public static native void clear(int registerSelector, int pinSet);
 
-    public static native void releaseGPIOThreadRecourse(final int pinNumber);
+    public static native void pulse(int registerSelector, int pinSet, int highSleepTime, int lowSleepTime);
+
+    public static native int poll(int pinNumber, int timeoutInMilSec);
+
+    public static native void releaseGPIOThreadRecourse(int pinNumber);
 
 }
