@@ -1,7 +1,7 @@
 #include <jni.h>
 
-#ifndef NATIVE32_JNICONTROLLER_H
-#define NATIVE32_JNICONTROLLER_H
+#ifndef JNICONTROLLER_H
+#define JNICONTROLLER_H
 
 typedef enum JNI_STATUS_ {
     JNI_SUCCESS,

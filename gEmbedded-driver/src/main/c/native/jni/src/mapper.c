@@ -3,6 +3,10 @@
 #include <sys/mman.h>
 #include "mapper.h"
 
+#define INVALID_PHYSICAL_ADDRESS    (0x0)
+#define MIN_BLOCK_SIZE              (1)
+#define MAX_BLOCK_SIZE              (4096)
+
 MAPPER_STATUS
 mapBaseRegister (const off_t physicalAddress, const size_t blockSize, const char *fileName, void **pointer) {
 

@@ -9,16 +9,14 @@ find_package(JNI REQUIRED)
 include_directories(
         ${JAVA_INCLUDE_PATH}
         ${JAVA_INCLUDE_PATH2}
-        include
+        jni/include
 )
 
-if(CMAKE_SIZEOF_VOID_P EQUAL 8)
-    SET(LIBRARY_NAME gEmbeddedRaspi4B64)
-elseif(CMAKE_SIZEOF_VOID_P EQUAL 4)
-    SET(LIBRARY_NAME gEmbeddedRaspi4B32)
-endif()
+set(SOURCE
+        ${CMAKE_CURRENT_SOURCE_DIR}/jni/src/devicecontroller.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/jni/src/jnicontroller.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/jni/src/mapper.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/jni/src/gpiocontroller.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/jni/src/i2cmastercontroller.c)
 
-SET(SHARED_LIB_NAME ${LIBRARY_NAME})
-
-add_subdirectory(src)
-add_subdirectory(test)
+add_subdirectory(bcm2711)

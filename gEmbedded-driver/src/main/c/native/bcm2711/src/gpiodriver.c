@@ -5,9 +5,20 @@
 #include <sys/ioctl.h>
 #include <poll.h>
 #include "gpiodriver.h"
+#include "bcm2711common.h"
 #include "common.h"
 #include "jnicontroller.h"
 #include "mapper.h"
+
+#define GPIO_BASE_ADDRESS   (PERIPHERAL_BASE_ADDRESS + 0x200000)
+#define GPIO_BLOCK_SIZE     (0xF4)
+#define GPIO_PIN_SIZE       (30)
+
+#define FALLING             (0)
+#define RISING              (1)
+#define READ_ERROR          (2)
+#define POLL_TIMEOUT        (3)
+#define POLL_ERROR          (4)
 
 typedef enum GPIO_PIN_FUNCTION_ {
     INPUT = 0b000,

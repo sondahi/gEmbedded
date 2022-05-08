@@ -1,6 +1,7 @@
 #include "i2cmasterdriver.h"
 #include "mapper.h"
 #include "jnicontroller.h"
+#include "bcm2711common.h"
 
 #define BSC0_BASE_ADDRESS       (PERIPHERAL_BASE_ADDRESS + 0x205000)
 #define BSC1_BASE_ADDRESS       (PERIPHERAL_BASE_ADDRESS + 0x804000)

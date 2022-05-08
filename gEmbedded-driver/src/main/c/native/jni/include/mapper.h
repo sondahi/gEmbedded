@@ -5,10 +5,6 @@
 #include <stdio.h>
 #include <jni.h>
 
-#define INVALID_PHYSICAL_ADDRESS    (0x0)
-#define MIN_BLOCK_SIZE              (1)
-#define MAX_BLOCK_SIZE              (4096)
-
 typedef enum MAPPER_STATUS_{
     MAPPER_SUCCESS,
     MAPPER_PHYSICAL_ADDRESS_ERROR,

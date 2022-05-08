@@ -1,6 +1,6 @@
 #include <CUnit/Basic.h>
 
-#include "mapper.h"
+#include "mappertest.h"
 
 static void *pointer;
 static const char *fileName = "/dev/mem";

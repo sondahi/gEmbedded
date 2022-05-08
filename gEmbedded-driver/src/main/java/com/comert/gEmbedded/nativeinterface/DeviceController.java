@@ -38,6 +38,9 @@ public abstract class DeviceController {
     private DeviceController() {
     }
 
+    public static void loadLibrary() throws JNIException{
+
+    }
     public static native void setUpJNIDriver(String jniExceptionClass) throws JNIException;
 
     public static native void shutDownJNIDriver() throws JNIException;
