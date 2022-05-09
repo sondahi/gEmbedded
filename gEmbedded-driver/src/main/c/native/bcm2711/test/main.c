@@ -1,17 +1,24 @@
 #include <CUnit/Basic.h>
-
 #include "mappertest.h"
 #include "gpiotest.h"
 
 int main() {
 
-    CU_pSuite pSuite = NULL;
-
-    if (CUE_SUCCESS != CU_initialize_registry())
+    if (CUE_SUCCESS != CU_initialize_registry()){
         return CU_get_error();
+    }
 
     MAPPER_TEST
     GPIO_TEST
+
+    CU_SuiteInfo suites[] = {
+            { "MapperTest", NULL, NULL, NULL, NULL,mapperTests },
+            { "GPIOTest", initGpioSuite, cleanupGpioSuite, NULL, NULL, gpioTests },
+            CU_SUITE_INFO_NULL };
+
+    CU_ErrorCode error = CU_register_suites (suites);
+
+    printf ("Error code : %d",error);
 
     CU_basic_set_mode(CU_BRM_VERBOSE);
     CU_basic_run_tests();

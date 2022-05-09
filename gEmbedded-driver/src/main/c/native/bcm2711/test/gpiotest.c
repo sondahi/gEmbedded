@@ -1,6 +1,7 @@
 #include <CUnit/Basic.h>
 #include <unistd.h>
 #include "gpiotest.h"
+#include "testcommon.h"
 
 static jint readerPin = 20;
 static jint readerFunction = 6;
@@ -15,7 +16,7 @@ static jint writerPinSet;
 int initGpioSuite (void) {
     GPIO_STATUS status = gpioDriverSetup ();
     if (status != GPIO_SUCCESS) {
-        return 1;
+        return SCENARIO_FAIL;
     }
 
     gpioDriver.setPinFunction (readerPin, readerFunction);
@@ -26,16 +27,16 @@ int initGpioSuite (void) {
     writerRegisterSelector = gpioDriver.getRegisterSelector (writerPin);
     writerPinSet = gpioDriver.getPinset (writerPin);
 
-    return 0;
+    return SCENARIO_SUCCESS;
 }
 
-int cleanGpioSuite (void) {
+int cleanupGpioSuite (void) {
     GPIO_STATUS status = gpioDriverShutdown ();
     if (status != GPIO_SUCCESS) {
-        return 1;
+        return SCENARIO_FAIL;
     }
 
-    return 0;
+    return SCENARIO_SUCCESS;
 }
 
 void testWrite () {
@@ -44,7 +45,6 @@ void testWrite () {
     CU_ASSERT_EQUAL(gpioDriver.isLow (writerRegisterSelector, writerPinSet), JNI_FALSE)
     CU_ASSERT_EQUAL(gpioDriver.isHigh(readerRegisterSelector, readerPinSet), JNI_TRUE)
     CU_ASSERT_EQUAL(gpioDriver.isLow(readerRegisterSelector, readerPinSet), JNI_FALSE)
-    sleep (2);
     gpioDriver.clear (writerRegisterSelector, writerPinSet);
     CU_ASSERT_EQUAL(gpioDriver.isHigh (writerRegisterSelector, writerPinSet), JNI_FALSE)
     CU_ASSERT_EQUAL(gpioDriver.isLow (writerRegisterSelector, writerPinSet), JNI_TRUE)
