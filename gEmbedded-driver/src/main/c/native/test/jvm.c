@@ -1,38 +1,34 @@
-#include <jni.h>
+#include "jvm.h"
 
-JavaVM *jvm = NULL;
-JNIEnv *env;
+JVM_STATUS createJVM(JavaVM **jvm, JNIEnv **env) {
+    JavaVMOption javaVmOption[1];
+    javaVmOption[0].optionString = "-Djava.class.path=/usr/lib/java:../../test";
 
-void createJVM() {
-    JavaVMInitArgs vm_args;
-    JavaVMOption options[2];
-    options[0].optionString = "-Djava.class.path=/usr/lib/java";
-    options[1].optionString = "-Xcheck:jni";
-    vm_args.version = JNI_VERSION_10;
-    vm_args.nOptions = 1;
-    vm_args.options = options;
-    vm_args.ignoreUnrecognized = JNI_FALSE;
-    jint result = JNI_CreateJavaVM(&jvm, (void**) &env, &vm_args);
+    JavaVMInitArgs javaVmInitArgs;
+    javaVmInitArgs.version = JNI_VERSION_10;
+    javaVmInitArgs.nOptions = 1;
+    javaVmInitArgs.options = javaVmOption;
+    javaVmInitArgs.ignoreUnrecognized = JNI_FALSE;
 
-    if (result < 0) {
-        printf("Can't create Java VM\n");
-    } else {
-        jclass syscls = (*env)->FindClass(env,"java/lang/System");
-        jfieldID fid = (*env)->GetStaticFieldID(env,syscls, "out", "Ljava/io/PrintStream;");
-        jobject out = (*env)->GetStaticObjectField(env,syscls, fid);
-        jclass pscls = (*env)->FindClass(env,"java/io/PrintStream");
-        jmethodID mid = (*env)->GetMethodID(env,pscls, "println", "(Ljava/lang/String;)V");
-        jchar *cppstr = (jchar *) "Hello World";
-        jstring str = (*env)->NewString(env,cppstr, sizeof(jchar));
-        (*env)->CallVoidMethod(env,out, mid, str);
+    jint result = JNI_CreateJavaVM(&(*jvm), (void**) &(*env), &javaVmInitArgs);
+
+    if (result != JNI_OK) {
+        return JVM_UNSUCCESSFUL;
     }
+
+    return JVM_SUCCESSFUL;
 }
 
-void destroyJVM() {
+JVM_STATUS destroyJVM(JavaVM *jvm) {
+
     if(jvm == NULL){
-        printf("can not destroy jvm");
+        return JVM_UNSUCCESSFUL;
     } else{
-        (*jvm)->DestroyJavaVM(jvm);
-        printf("jvm destroyed successfuly");
+        jint result = (*jvm)->DestroyJavaVM(jvm);
+        if(result != JNI_OK){
+            return JVM_UNSUCCESSFUL;
+        }
     }
+
+    return JVM_SUCCESSFUL;
 }

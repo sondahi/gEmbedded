@@ -1,5 +1,6 @@
 #include <CUnit/Basic.h>
 #include "mappertest.h"
+#include "jvmtest.h"
 
 int main() {
 
@@ -8,9 +9,11 @@ int main() {
     }
 
     MAPPER_TEST
+    JVM_TEST
 
     CU_SuiteInfo suites[] = {
             { "MapperTest", NULL, NULL, NULL, NULL,mapperTests },
+            { "JVMTest", NULL, NULL, NULL, NULL,jvmTests },
             CU_SUITE_INFO_NULL };
 
     CU_ErrorCode cuStatus = CU_register_suites (suites);

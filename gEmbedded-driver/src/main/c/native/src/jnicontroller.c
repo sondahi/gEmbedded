@@ -51,13 +51,16 @@ static void throwANewJNIException_(JNIEnv *env, const char *message) {
 JNI_STATUS jniSetup(JNIEnv *env) {
 
     const register jclass runtimeExceptionClazz = (*env)->FindClass(env, "java/lang/RuntimeException");
+    if(runtimeExceptionClazz == NULL){
+        return JNI_CLASSPATH_ERROR;
+    }
     RuntimeExceptionClass = (*env)->NewGlobalRef(env, runtimeExceptionClazz);
+
 
     const register jclass jniExceptionClazz = (*env)->FindClass(env, "com/comert/gEmbedded/api/device/exception/JNIException");
     if(jniExceptionClazz == NULL){
         return JNI_CLASSPATH_ERROR;
     }
-
     JNIExceptionClass = (*env)->NewGlobalRef(env, jniExceptionClazz);
 
     jniController.getConstantDigit = getConstantDigit_;
