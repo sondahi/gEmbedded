@@ -1,7 +1,7 @@
 #include <CUnit/Basic.h>
 #include <unistd.h>
-#include "gpiotest.h"
-#include "testcommon.h"
+#include "gpiodrivertest.h"
+#include "commontest.h"
 
 static jint readerPin = 20;
 static jint readerFunction = 6;

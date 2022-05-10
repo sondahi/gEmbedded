@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TARGET_NATIVES="./src/main/c/native/jni/include"
+TARGET_NATIVES="./src/main/c/native/jni"
 
 API_JAR="./target/lib/*.jar"
 

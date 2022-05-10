@@ -1,5 +1,4 @@
 #include <CUnit/Basic.h>
-
 #include "mappertest.h"
 
 static void *pointer;
@@ -8,8 +7,11 @@ static const size_t blockSize = 0xF4; // GPIO
 static const off_t physicalAddress = 0xFE200000; // GPIO
 
 void testMapBaseRegister (void) {
-    char *inValidFileName = NULL;
-    MAPPER_STATUS status = mapBaseRegister (inValidFileName, blockSize, physicalAddress, &pointer);
+    char *inValidFileName;
+    MAPPER_STATUS status;
+
+    inValidFileName = NULL;
+    status = mapBaseRegister (inValidFileName, blockSize, physicalAddress, &pointer);
     CU_ASSERT_NOT_EQUAL(status, MAPPER_SUCCESS)
     CU_ASSERT_EQUAL(status, MAPPER_FILE_OPEN_ERROR)
 

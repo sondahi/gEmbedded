@@ -3,7 +3,6 @@
 
 #include <stddef.h>
 #include <stdio.h>
-#include <jni.h>
 
 typedef enum MAPPER_STATUS_{
     MAPPER_SUCCESS,

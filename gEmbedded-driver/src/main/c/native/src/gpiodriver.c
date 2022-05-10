@@ -5,7 +5,6 @@
 #include <sys/ioctl.h>
 #include <poll.h>
 #include "gpiodriver.h"
-#include "bcm2711common.h"
 #include "common.h"
 #include "jnicontroller.h"
 #include "mapper.h"

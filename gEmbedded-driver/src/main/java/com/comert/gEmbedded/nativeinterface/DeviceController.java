@@ -11,31 +11,7 @@ import java.util.Set;
 public abstract class DeviceController {
 
     static {
-        /*
-        if (System.getProperty("os.arch").equals("aarch64")){
-            System.loadLibrary("gEmbeddedRaspi4B64");
-        } else {
-            System.loadLibrary("gEmbeddedRaspi4B32");
-        }
-         */
-
-        try {
-            final var arch = System.getProperty("os.arch");
-            switch (arch){
-                case "aarch64":{
-                    NativeUtils.loadLibraryFromJar("/libgEmbeddedRaspi4B64.so");
-                    break;
-                }
-                case "arm":{
-                    NativeUtils.loadLibraryFromJar("/libgEmbeddedRaspi4B32.so");
-                }
-                default:{
-                    throw new RuntimeException("Unsupported Arc");
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        System.loadLibrary("gEmbeddedRaspi4B32");
     }
 
     private DeviceController() {
@@ -46,6 +22,7 @@ public abstract class DeviceController {
     public static native void shutdownDevice() throws JNIException;
 
     public static native Set<Pin> getNotSupportedPins();
+
     public static native Set<I2CBus> getNotSupportedI2CBusses();
 
 }
