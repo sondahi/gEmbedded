@@ -1,6 +1,10 @@
+#include <unistd.h>
 #include "jvm.h"
 
-JVM_STATUS createJVM(JavaVM **jvm, JNIEnv **env) {
+static JavaVM *javaVm = NULL;
+static JNIEnv *jniEnv = NULL;
+
+JVM_STATUS createJVM () {
     JavaVMOption javaVmOption[1];
     javaVmOption[0].optionString = "-Djava.class.path=/usr/lib/java:../../test";
 
@@ -10,25 +14,39 @@ JVM_STATUS createJVM(JavaVM **jvm, JNIEnv **env) {
     javaVmInitArgs.options = javaVmOption;
     javaVmInitArgs.ignoreUnrecognized = JNI_FALSE;
 
-    jint result = JNI_CreateJavaVM(&(*jvm), (void**) &(*env), &javaVmInitArgs);
+    jint result = JNI_CreateJavaVM (&javaVm, (void **) &jniEnv, &javaVmInitArgs);
 
     if (result != JNI_OK) {
-        return JVM_UNSUCCESSFUL;
+        printf ("JVM could not be created. Error code : %d\n", result);
+        return JVM_UNSUCCESS;
     }
 
-    return JVM_SUCCESSFUL;
+    return JVM_SUCCESS;
 }
 
-JVM_STATUS destroyJVM(JavaVM *jvm) {
+JVM_STATUS getJNIEnv (JNIEnv **pJniEnv) {
 
-    if(jvm == NULL){
-        return JVM_UNSUCCESSFUL;
-    } else{
-        jint result = (*jvm)->DestroyJavaVM(jvm);
-        if(result != JNI_OK){
-            return JVM_UNSUCCESSFUL;
+    *pJniEnv = jniEnv;
+    if (*pJniEnv == NULL) {
+        return JVM_UNSUCCESS;
+    }
+
+    return JVM_SUCCESS;
+
+}
+
+
+JVM_STATUS destroyJVM () {
+
+    if (javaVm == NULL) {
+        return JVM_UNSUCCESS;
+    } else {
+        jint result = (*javaVm)->DestroyJavaVM (javaVm);
+        if (result != JNI_OK) {
+            printf ("JVM could not be destroyed. Error code : %d\n", result);
+            return JVM_UNSUCCESS;
         }
     }
 
-    return JVM_SUCCESSFUL;
+    return JVM_SUCCESS;
 }

@@ -31,7 +31,7 @@ void testMapBaseRegister (void) {
     CU_ASSERT_EQUAL(status, MAPPER_MEMORY_MAP_ERROR)
 
     status = mapBaseRegister (fileName, blockSize, physicalAddress, &pointer);
-    CU_ASSERT_EQUAL(status, MAPPER_SUCCESS)
+    CU_ASSERT_EQUAL_FATAL(status, MAPPER_SUCCESS)
 }
 
 void testUnmapBaseRegister (void) {
@@ -41,5 +41,5 @@ void testUnmapBaseRegister (void) {
     CU_ASSERT_EQUAL(status, MAPPER_MEMORY_UNMAP_ERROR)
 
     status = unmapBaseRegister (pointer, blockSize);
-    CU_ASSERT_EQUAL(status, MAPPER_SUCCESS)
+    CU_ASSERT_EQUAL_FATAL(status, MAPPER_SUCCESS)
 }

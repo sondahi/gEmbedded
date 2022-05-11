@@ -7,17 +7,18 @@ typedef enum JNI_STATUS_ {
     JNI_SUCCESS,
     JNI_EXCEPTION_OCCURRED,
     JNI_CLASSPATH_ERROR,
-    JNI_POINTER_ERROR,
+    JNI_GLOBAL_REFERENCE_ERROR
 } JNI_STATUS;
 
 typedef struct JniController_ {
-    JNI_STATUS (*getConstantDigit)(JNIEnv *env, jobject enumClass, jint *digitToReturn);
-    void (*throwANewJNIException)(JNIEnv *env, const char *message);
+    JNI_STATUS (*getConstantDigit)(JNIEnv *env, jobject enumObject, jint *digitToReturn);
+    JNI_STATUS (*getConstantText)(JNIEnv *env, jobject enumObject, char *textToReturn, int textToReturnSize);
+    void (*throwANewJNIException) (JNIEnv *env, const char *message);
 } JniController;
 
 extern JniController jniController;
 
 JNI_STATUS jniSetup(JNIEnv *env);
-void jniShutdown(JNIEnv *env);
+JNI_STATUS jniShutdown(JNIEnv *env);
 
 #endif

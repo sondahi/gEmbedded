@@ -1,5 +1,4 @@
 #include <CUnit/Basic.h>
-#include <unistd.h>
 #include "gpiodrivertest.h"
 #include "commontest.h"
 

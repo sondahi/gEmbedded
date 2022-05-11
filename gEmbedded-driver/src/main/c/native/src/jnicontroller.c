@@ -5,74 +5,115 @@ JniController jniController;
 static jclass RuntimeExceptionClass;
 static jclass JNIExceptionClass;
 
-static JNI_STATUS getConstantDigit_(JNIEnv *env, jobject enumClass, jint *digitToReturn) {
+static JNI_STATUS getConstantDigit_ (JNIEnv *env, jobject enumObject, jint *digitToReturn) {
 
     char message[250];
 
-    const register jclass toGetEnumClass = (*env)->GetObjectClass(env, enumClass);
-    if(toGetEnumClass == NULL){
-        sprintf(message, "Enum class could not be found");
-        jniController.throwANewJNIException(env, message);
+    const register jclass toGetEnumClass = (*env)->GetObjectClass (env, enumObject);
+    if (toGetEnumClass == NULL) {
+        sprintf (message, "Enum class could not be found");
+        jniController.throwANewJNIException (env, message);
         return JNI_EXCEPTION_OCCURRED;
     }
 
     const char *methodNameToFind = "getDigit";
     const char *methodSignatureToFind = "()I";
 
-    jmethodID methodIdToFind = (*env)->GetMethodID(env, toGetEnumClass, methodNameToFind, methodSignatureToFind);
-    if(methodIdToFind == NULL){
-        sprintf(message, "getDigit() method could not be found");
-        jniController.throwANewJNIException(env, message);
+    jmethodID methodIdToFind = (*env)->GetMethodID (env, toGetEnumClass, methodNameToFind, methodSignatureToFind);
+    if (methodIdToFind == NULL) {
+        sprintf (message, "getDigit() method could not be found");
+        jniController.throwANewJNIException (env, message);
         return JNI_EXCEPTION_OCCURRED;
     }
 
-    *digitToReturn = (*env)->CallIntMethod(env, enumClass, methodIdToFind);
+    *digitToReturn = (*env)->CallIntMethod (env, enumObject, methodIdToFind);
 
     return JNI_SUCCESS;
 
 }
 
-static inline void throwANewRuntimeException(JNIEnv *env) {
+static JNI_STATUS getConstantText_ (JNIEnv *env, jobject enumObject, char *textToReturn, int textToReturnSize) {
+    char message[250];
+
+    const register jclass toGetEnumClass = (*env)->GetObjectClass (env, enumObject);
+    if (toGetEnumClass == NULL) {
+        sprintf (message, "Enum class could not be found");
+        jniController.throwANewJNIException (env, message);
+        return JNI_EXCEPTION_OCCURRED;
+    }
+
+    const char *methodNameToFind = "getText";
+    const char *methodSignatureToFind = "()Ljava/lang/String;";
+
+    jmethodID methodIdToFind = (*env)->GetMethodID (env, toGetEnumClass, methodNameToFind, methodSignatureToFind);
+    if (methodIdToFind == NULL) {
+        sprintf (message, "getText() method could not be found");
+        jniController.throwANewJNIException (env, message);
+        return JNI_EXCEPTION_OCCURRED;
+    }
+
+    jstring toGetTextString = (jstring) (*env)->CallObjectMethod (env, enumObject, methodIdToFind);
+    jboolean isCopy = JNI_TRUE;
+    const char *text = (*env)->GetStringUTFChars (env, toGetTextString, &isCopy);
+    for (int i = 0; i < textToReturnSize; ++i) {
+        textToReturn[i]=text[i];
+    }
+
+    (*env)->ReleaseStringUTFChars (env, toGetTextString, text);
+
+    return JNI_SUCCESS;
+}
+
+static inline void throwANewRuntimeException (JNIEnv *env) {
 
     const char *message = "JNIException could not be thrown";
-    (*env)->ThrowNew(env, RuntimeExceptionClass, message);
+    (*env)->ThrowNew (env, RuntimeExceptionClass, message);
 
 }
 
-static void throwANewJNIException_(JNIEnv *env, const char *message) {
+static void throwANewJNIException_ (JNIEnv *env, const char *message) {
 
-    const register jint throwNewJNIException = (*env)->ThrowNew(env, JNIExceptionClass, message);
+    const register jint throwNewJNIException = (*env)->ThrowNew (env, JNIExceptionClass, message);
     if (throwNewJNIException != JNI_OK) {
-        throwANewRuntimeException(env);
+        throwANewRuntimeException (env);
     }
 
 }
 
-JNI_STATUS jniSetup(JNIEnv *env) {
+JNI_STATUS jniSetup (JNIEnv *env) {
 
-    const register jclass runtimeExceptionClazz = (*env)->FindClass(env, "java/lang/RuntimeException");
-    if(runtimeExceptionClazz == NULL){
+    const jclass runtimeExceptionClazz = (*env)->FindClass (env, "java/lang/RuntimeException");
+    if (runtimeExceptionClazz == NULL) {
         return JNI_CLASSPATH_ERROR;
     }
-    RuntimeExceptionClass = (*env)->NewGlobalRef(env, runtimeExceptionClazz);
+    RuntimeExceptionClass = (*env)->NewGlobalRef (env, runtimeExceptionClazz);
+    if (RuntimeExceptionClass == NULL) {
+        return JNI_GLOBAL_REFERENCE_ERROR;
+    }
 
-
-    const register jclass jniExceptionClazz = (*env)->FindClass(env, "com/comert/gEmbedded/api/device/exception/JNIException");
-    if(jniExceptionClazz == NULL){
+    const register jclass jniExceptionClazz = (*env)->FindClass (env,
+                                                                 "com/comert/gEmbedded/api/device/exception/JNIException");
+    if (jniExceptionClazz == NULL) {
         return JNI_CLASSPATH_ERROR;
     }
-    JNIExceptionClass = (*env)->NewGlobalRef(env, jniExceptionClazz);
+    JNIExceptionClass = (*env)->NewGlobalRef (env, jniExceptionClazz);
+    if (JNIExceptionClass == NULL) {
+        return JNI_GLOBAL_REFERENCE_ERROR;
+    }
 
     jniController.getConstantDigit = getConstantDigit_;
+    jniController.getConstantText = getConstantText_;
     jniController.throwANewJNIException = throwANewJNIException_;
 
     return JNI_SUCCESS;
 
 }
 
-void jniShutdown(JNIEnv *env) {
+JNI_STATUS jniShutdown (JNIEnv *env) {
 
-    (*env)->DeleteGlobalRef(env, RuntimeExceptionClass);
-    (*env)->DeleteGlobalRef(env, JNIExceptionClass);
+    (*env)->DeleteGlobalRef (env, RuntimeExceptionClass);
+    (*env)->DeleteGlobalRef (env, JNIExceptionClass);
+
+    return JNI_SUCCESS;
 
 }

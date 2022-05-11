@@ -9,7 +9,7 @@ add_executable(test
         main.c
         jvm.c
         mappertest.c
-        gpiodrivertest.c jvmtest.c)
+        gpiodrivertest.c jvmtest.c jnicontrollertest.c)
 
 target_link_libraries(test ${SHARED_LIB_NAME})
 target_link_libraries(test cunit)
