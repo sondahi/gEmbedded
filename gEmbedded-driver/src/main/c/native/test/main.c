@@ -15,7 +15,7 @@ int main () {
 
     CU_SuiteInfo suites[] = {
             //{"JVMTest", NULL, NULL, NULL, NULL, jvmTests},
-            //{"MapperTest", NULL, NULL, NULL, NULL, mapperTests},
+            {"MapperTest", NULL, NULL, NULL, NULL, mapperTests},
             {"JniControllerTest", initJniControllerSuite, cleanupJniControllerSuite, NULL, NULL, jniTests},
             CU_SUITE_INFO_NULL};
 

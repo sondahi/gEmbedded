@@ -45,21 +45,27 @@ void testJniSetup (void) {
 
 void testGetConstantDigit (void) {
     jint intValue;
-    JNI_STATUS status = jniController.getConstantDigit (jniEnv, pinObject, &intValue);
+    JNI_STATUS status = jniController.getEnumDigit (jniEnv, pinObject, &intValue);
     CU_ASSERT_EQUAL(status, JNI_SUCCESS)
     CU_ASSERT_EQUAL(intValue, 0)
 }
 
 void testGetConstantText(void) {
-    char stringValue[25];
-    JNI_STATUS status = jniController.getConstantText (jniEnv, pinObject, stringValue,sizeof(stringValue));
+    JNI_STATUS status;
+
+    char invalidStringValue[1];
+    status = jniController.getEnumText (jniEnv, pinObject, invalidStringValue, sizeof (invalidStringValue));
+    CU_ASSERT_EQUAL(status,JNI_GET_ENUM_TEXT_SIZE_ERROR)
+
+    char stringValue[10];
+    status = jniController.getEnumText (jniEnv, pinObject, stringValue, sizeof (stringValue));
     (*jniEnv)->ExceptionDescribe(jniEnv);
     CU_ASSERT_EQUAL(status, JNI_SUCCESS)
     CU_ASSERT_STRING_EQUAL(stringValue, "Zero")
 }
 
 void testThrowANewJNIException (void) {
-    const char *message = "***TEST***";
+    char *message = "***TEST***";
     jniController.throwANewJNIException (jniEnv, message);
     jboolean result = (*jniEnv)->ExceptionCheck (jniEnv);
     CU_ASSERT_EQUAL_FATAL(result, JNI_TRUE)

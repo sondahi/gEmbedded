@@ -7,12 +7,12 @@ JNIEXPORT void JNICALL Java_com_comert_gEmbedded_nativeinterface_GPIOController_
 
     jint pinNumberToSet, pinFunctionToSet;
 
-    const register JNI_STATUS pinStatus = jniController.getConstantDigit (env, pin, &pinNumberToSet);
+    const register JNI_STATUS pinStatus = jniController.getEnumDigit (env, pin, &pinNumberToSet);
     if (pinStatus == JNI_EXCEPTION_OCCURRED) {
         return;
     }
 
-    const register JNI_STATUS pinFunctionStatus = jniController.getConstantDigit
+    const register JNI_STATUS pinFunctionStatus = jniController.getEnumDigit
             (env, pinFunction, &pinFunctionToSet);
 
     if (pinFunctionStatus == JNI_EXCEPTION_OCCURRED) {
@@ -33,12 +33,12 @@ JNIEXPORT void JNICALL Java_com_comert_gEmbedded_nativeinterface_GPIOController_
 
     jint pinNumberToSet, pullUpDownStatusToSet;
 
-    const register JNI_STATUS pinStatus = jniController.getConstantDigit (env, pin, &pinNumberToSet);
+    const register JNI_STATUS pinStatus = jniController.getEnumDigit (env, pin, &pinNumberToSet);
     if (pinStatus == JNI_EXCEPTION_OCCURRED) {
         return;
     }
 
-    const register JNI_STATUS pullUpDownStatusStatus = jniController.getConstantDigit
+    const register JNI_STATUS pullUpDownStatusStatus = jniController.getEnumDigit
             (env, pullUpDownStatus, &pullUpDownStatusToSet);
     if (pullUpDownStatusStatus == JNI_EXCEPTION_OCCURRED) {
         return;
@@ -58,12 +58,12 @@ JNIEXPORT void JNICALL Java_com_comert_gEmbedded_nativeinterface_GPIOController_
 
     jint pinNumberToSet, eventDetectStatusToSet;
 
-    const register JNI_STATUS pinStatus = jniController.getConstantDigit (env, pin, &pinNumberToSet);
+    const register JNI_STATUS pinStatus = jniController.getEnumDigit (env, pin, &pinNumberToSet);
     if (pinStatus == JNI_EXCEPTION_OCCURRED) {
         return;
     }
 
-    const register JNI_STATUS eventDetectStatusStatus = jniController.getConstantDigit
+    const register JNI_STATUS eventDetectStatusStatus = jniController.getEnumDigit
             (env, eventDetectStatus, &eventDetectStatusToSet);
     if (eventDetectStatusStatus == JNI_EXCEPTION_OCCURRED) {
         return;
@@ -86,7 +86,7 @@ JNIEXPORT jint JNICALL Java_com_comert_gEmbedded_nativeinterface_GPIOController_
 
     jint pinNumber, registerSelector;
 
-    const register JNI_STATUS pinStatus = jniController.getConstantDigit (env, pin, &pinNumber);
+    const register JNI_STATUS pinStatus = jniController.getEnumDigit (env, pin, &pinNumber);
     if (pinStatus == JNI_EXCEPTION_OCCURRED) {
         return 0;
     }
@@ -101,7 +101,7 @@ JNIEXPORT jint JNICALL Java_com_comert_gEmbedded_nativeinterface_GPIOController_
 
     jint pinNumber, pinSet;
 
-    const register JNI_STATUS pinStatus = jniController.getConstantDigit (env, pin, &pinNumber);
+    const register JNI_STATUS pinStatus = jniController.getEnumDigit (env, pin, &pinNumber);
     if (pinStatus == JNI_EXCEPTION_OCCURRED) {
         return 0;
     }

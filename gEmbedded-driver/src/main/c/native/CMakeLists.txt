@@ -12,7 +12,7 @@ include_directories(
         jni
         include)
 
-SET(SHARED_LIB_NAME libgEmbeddedRaspi4B32)
+SET(SHARED_LIB_NAME gEmbeddedRaspi4B32)
 
 add_subdirectory(src)
 add_subdirectory(test)

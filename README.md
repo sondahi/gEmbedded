@@ -26,7 +26,7 @@ PLEASE DO NOT DOWNLOAD CODES FROM GITHUB. BECAUSE I ALWAYS MAKE CHANGES. INSTEAD
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <gEmbedded.version>2022.05.01-SNAPSHOT</gEmbedded.version>
+        <gEmbedded.version>2022.05.13-SNAPSHOT</gEmbedded.version>
     </properties>
 
     <repositories>
@@ -52,6 +52,12 @@ PLEASE DO NOT DOWNLOAD CODES FROM GITHUB. BECAUSE I ALWAYS MAKE CHANGES. INSTEAD
         <dependency> <!--Mandatory, this is provider of the project, only one provider have to be selected-->
             <groupId>com.comert</groupId>
             <artifactId>gEmbedded-raspberrypi-4B</artifactId>
+            <version>${gEmbedded.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency> <!--Mandatory, this is drivers of native libraries-->
+            <groupId>com.comert</groupId>
+            <artifactId>gEmbedded-driver</artifactId>
             <version>${gEmbedded.version}</version>
             <scope>compile</scope>
         </dependency>

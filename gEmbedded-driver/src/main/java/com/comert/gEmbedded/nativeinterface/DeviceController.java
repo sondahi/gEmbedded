@@ -11,7 +11,12 @@ import java.util.Set;
 public abstract class DeviceController {
 
     static {
-        System.loadLibrary("gEmbeddedRaspi4B32");
+        //System.loadLibrary("gEmbeddedRaspi4B32");
+        try {
+            NativeUtils.loadLibraryFromJar("/libgEmbeddedRaspi4B32.so");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private DeviceController() {

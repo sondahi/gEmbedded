@@ -7,7 +7,7 @@ JNIEXPORT void JNICALL Java_com_comert_gEmbedded_nativeinterface_I2CMasterContro
 
     jint busNumber;
 
-    const register JNI_STATUS busStatus = jniController.getConstantDigit(env, bus, &busNumber);
+    const register JNI_STATUS busStatus = jniController.getEnumDigit(env, bus, &busNumber);
     if(busStatus == JNI_EXCEPTION_OCCURRED){
         return;
     }
@@ -26,7 +26,7 @@ JNIEXPORT jint JNICALL Java_com_comert_gEmbedded_nativeinterface_I2CMasterContro
 
     jint busNumber, registerSelector;
 
-    const register JNI_STATUS busStatus = jniController.getConstantDigit(env, bus, &busNumber);
+    const register JNI_STATUS busStatus = jniController.getEnumDigit(env, bus, &busNumber);
     if(busStatus == JNI_EXCEPTION_OCCURRED){
         return 0;
     }

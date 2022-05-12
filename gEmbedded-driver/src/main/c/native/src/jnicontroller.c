@@ -5,11 +5,11 @@ JniController jniController;
 static jclass RuntimeExceptionClass;
 static jclass JNIExceptionClass;
 
-static JNI_STATUS getConstantDigit_ (JNIEnv *env, jobject enumObject, jint *digitToReturn) {
+static JNI_STATUS getEnumDigit_ (JNIEnv *env, jobject enumObject, jint *digitToReturn) {
 
     char message[250];
 
-    const register jclass toGetEnumClass = (*env)->GetObjectClass (env, enumObject);
+    const jclass toGetEnumClass = (*env)->GetObjectClass (env, enumObject);
     if (toGetEnumClass == NULL) {
         sprintf (message, "Enum class could not be found");
         jniController.throwANewJNIException (env, message);
@@ -32,7 +32,7 @@ static JNI_STATUS getConstantDigit_ (JNIEnv *env, jobject enumObject, jint *digi
 
 }
 
-static JNI_STATUS getConstantText_ (JNIEnv *env, jobject enumObject, char *textToReturn, int textToReturnSize) {
+static JNI_STATUS getEnumText_ (JNIEnv *env, jobject enumObject, char *textToReturn, int textToReturnSize) {
     char message[250];
 
     const register jclass toGetEnumClass = (*env)->GetObjectClass (env, enumObject);
@@ -55,8 +55,17 @@ static JNI_STATUS getConstantText_ (JNIEnv *env, jobject enumObject, char *textT
     jstring toGetTextString = (jstring) (*env)->CallObjectMethod (env, enumObject, methodIdToFind);
     jboolean isCopy = JNI_TRUE;
     const char *text = (*env)->GetStringUTFChars (env, toGetTextString, &isCopy);
-    for (int i = 0; i < textToReturnSize; ++i) {
-        textToReturn[i]=text[i];
+    const size_t textSize = sizeof (text);
+    if (textSize > textToReturnSize) {
+        (*env)->ReleaseStringUTFChars (env, toGetTextString, text);
+        return JNI_GET_ENUM_TEXT_SIZE_ERROR;
+    } else {
+        for (int i = 0; i <= textSize; ++i) {
+            textToReturn[i] = text[i];
+            if (i == textSize) {
+                textToReturn[i] = '\0';
+            }
+        }
     }
 
     (*env)->ReleaseStringUTFChars (env, toGetTextString, text);
@@ -84,6 +93,7 @@ JNI_STATUS jniSetup (JNIEnv *env) {
 
     const jclass runtimeExceptionClazz = (*env)->FindClass (env, "java/lang/RuntimeException");
     if (runtimeExceptionClazz == NULL) {
+        // exception occurred decide to clear or not
         return JNI_CLASSPATH_ERROR;
     }
     RuntimeExceptionClass = (*env)->NewGlobalRef (env, runtimeExceptionClazz);
@@ -101,8 +111,8 @@ JNI_STATUS jniSetup (JNIEnv *env) {
         return JNI_GLOBAL_REFERENCE_ERROR;
     }
 
-    jniController.getConstantDigit = getConstantDigit_;
-    jniController.getConstantText = getConstantText_;
+    jniController.getEnumDigit = getEnumDigit_;
+    jniController.getEnumText = getEnumText_;
     jniController.throwANewJNIException = throwANewJNIException_;
 
     return JNI_SUCCESS;
