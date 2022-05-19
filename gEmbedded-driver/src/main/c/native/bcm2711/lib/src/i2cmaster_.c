@@ -1,11 +1,11 @@
-#include "i2cmasterdriver.h"
+#include "i2cmaster.h"
 #include "mapper.h"
-#include "jnicontroller.h"
+#include "jninative.h"
 
 #define BSC0_BASE_ADDRESS       (PERIPHERAL_BASE_ADDRESS + 0x205000)
 #define BSC1_BASE_ADDRESS       (PERIPHERAL_BASE_ADDRESS + 0x804000)
 #define BSC_BLOCK_SIZE          (0x20)
-
+/*
 I2CMaster i2CMasterDriver;
 
 typedef struct BSCRegs_ {
@@ -315,3 +315,4 @@ I2C_STATUS i2cStatusCheck(JNIEnv *env, const I2C_STATUS status){
     }
 
 }
+ */

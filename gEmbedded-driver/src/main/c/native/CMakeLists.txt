@@ -9,10 +9,9 @@ find_package(JNI REQUIRED)
 include_directories(
         ${JAVA_INCLUDE_PATH}
         ${JAVA_INCLUDE_PATH2}
-        jni
-        include)
+        ${CMAKE_CURRENT_SOURCE_DIR}/jni/include
+)
 
-SET(SHARED_LIB_NAME gEmbeddedRaspi4B32)
+SET(JNI_TEST_RESOURCES ${CMAKE_CURRENT_SOURCE_DIR}/jni/com)
 
-add_subdirectory(src)
-add_subdirectory(test)
+add_subdirectory(bcm2711)

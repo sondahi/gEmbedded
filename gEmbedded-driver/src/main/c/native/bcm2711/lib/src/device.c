@@ -1,7 +1,7 @@
 #include "com_comert_gEmbedded_nativeinterface_DeviceController.h"
-#include "jnicontroller.h"
-#include "gpiodriver.h"
-#include "i2cmasterdriver.h"
+#include "jninative.h"
+#include "gpio.h"
+#include "i2cmaster.h"
 
 JNIEXPORT void JNICALL Java_com_comert_gEmbedded_nativeinterface_DeviceController_setupDevice
         (JNIEnv *env, jclass DeviceController){
@@ -14,15 +14,13 @@ JNIEXPORT void JNICALL Java_com_comert_gEmbedded_nativeinterface_DeviceControlle
         return;
     }
 
-    const register GPIO_STATUS gpioStatus = gpioDriverSetup();
-    const register GPIO_STATUS gpioExceptionStatus = gpioStatusCheck (env, gpioStatus);
-    if (gpioExceptionStatus == GPIO_EXCEPTION_OCCURRED) {
+    const register GPIO_STATUS gpioStatus = gpioDriverSetup(env);
+    if (gpioStatus == GPIO_ERROR) {
         return;
     }
 
-    const register I2C_STATUS i2CStatus = i2cMasterDriverSetup ();
-    const register I2C_STATUS i2cExceptionStatus = i2cStatusCheck (env, i2CStatus);
-    if (i2cExceptionStatus == I2C_EXCEPTION_OCCURRED) {
+    const register I2C_STATUS i2CStatus = i2cMasterDriverSetup (env);
+    if (i2CStatus == I2C_ERROR) {
         return;
     }
 
@@ -31,15 +29,13 @@ JNIEXPORT void JNICALL Java_com_comert_gEmbedded_nativeinterface_DeviceControlle
 JNIEXPORT void JNICALL Java_com_comert_gEmbedded_nativeinterface_DeviceController_shutdownDevice
         (JNIEnv *env, jclass DeviceController){
 
-    const register I2C_STATUS i2CStatus = i2cMasterDriverShutdown ();
-    const register I2C_STATUS i2cExceptionStatus = i2cStatusCheck (env, i2CStatus);
-    if (i2cExceptionStatus == I2C_EXCEPTION_OCCURRED) {
+    const register I2C_STATUS i2CStatus = i2cMasterDriverShutdown (env);
+    if (i2CStatus == I2C_ERROR) {
         return;
     }
 
-    const register GPIO_STATUS gpioStatus = gpioDriverShutdown ();
-    const register GPIO_STATUS gpioExceptionStatus = gpioStatusCheck (env, gpioStatus);
-    if (gpioExceptionStatus == GPIO_EXCEPTION_OCCURRED) {
+    const register GPIO_STATUS gpioStatus = gpioDriverShutdown (env);
+    if (gpioStatus == GPIO_ERROR) {
         return;
     }
 

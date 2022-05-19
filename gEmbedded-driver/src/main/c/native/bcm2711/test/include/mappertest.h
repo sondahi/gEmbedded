@@ -1,8 +1,6 @@
 #ifndef MAPPERTEST_H
 #define MAPPERTEST_H
 
-#include "mapper.h"
-
 void testMapBaseRegister (void);
 
 void testUnmapBaseRegister (void);

@@ -6,9 +6,7 @@
 
 typedef enum MAPPER_STATUS_{
     MAPPER_SUCCESS,
-    MAPPER_FILE_OPEN_ERROR,
-    MAPPER_MEMORY_MAP_ERROR,
-    MAPPER_MEMORY_UNMAP_ERROR
+    MAPPER_ERROR
 } MAPPER_STATUS;
 
 MAPPER_STATUS mapBaseRegister (const char *fileName, size_t blockSize, off_t physicalAddress, void **pointer);

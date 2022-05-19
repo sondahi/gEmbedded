@@ -1,7 +1,8 @@
 #include <CUnit/Basic.h>
+#include "jvm.h"
 #include "mappertest.h"
 #include "jvmtest.h"
-#include "jnicontrollertest.h"
+#include "jninativetest.h"
 
 int main () {
 
@@ -9,14 +10,14 @@ int main () {
         return CU_get_error ();
     }
 
-    //JVM_TEST
-    MAPPER_TEST
+    JVM_TEST
     JNICONTROLLER_TEST
+    MAPPER_TEST
 
     CU_SuiteInfo suites[] = {
             //{"JVMTest", NULL, NULL, NULL, NULL, jvmTests},
+            //{"JniControllerTest", initJniControllerSuite, cleanupJniControllerSuite, NULL, NULL, jniTests},
             {"MapperTest", NULL, NULL, NULL, NULL, mapperTests},
-            {"JniControllerTest", initJniControllerSuite, cleanupJniControllerSuite, NULL, NULL, jniTests},
             CU_SUITE_INFO_NULL};
 
     CU_ErrorCode cuStatus = CU_register_suites (suites);

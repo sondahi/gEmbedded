@@ -8,6 +8,7 @@
 #define CORE_CLOCK_SPEED        (1500000000)
 
 typedef uint8_t u8;
+typedef uint32_t u32;
 typedef uint32_t reg_t;
 typedef volatile reg_t reg;
 

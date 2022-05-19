@@ -1,14 +1,14 @@
 #include <jni.h>
 
-#ifndef JNICONTROLLER_H
-#define JNICONTROLLER_H
+#ifndef JNINATIVE_H
+#define JNINATIVE_H
+
+// the biggest word "Seventy seven"(13 + '\0' = 14 word) in 100
+#define LARGEST_NUMBER_WORD (14)
 
 typedef enum JNI_STATUS_ {
     JNI_SUCCESS,
-    JNI_EXCEPTION_OCCURRED,
-    JNI_CLASSPATH_ERROR,
-    JNI_GLOBAL_REFERENCE_ERROR,
-    JNI_GET_ENUM_TEXT_SIZE_ERROR
+    JNI_ERROR
 } JNI_STATUS;
 
 typedef struct JniController_ {

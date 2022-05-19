@@ -1,12 +1,14 @@
 #include <unistd.h>
+#include <stdio.h>
 #include "jvm.h"
 
 static JavaVM *javaVm = NULL;
 static JNIEnv *jniEnv = NULL;
 
 JVM_STATUS createJVM () {
+
     JavaVMOption javaVmOption[1];
-    javaVmOption[0].optionString = "-Djava.class.path=/usr/lib/java:../../test";
+    javaVmOption[0].optionString = "-Djava.class.path=/usr/lib/java:../../../jni";
 
     JavaVMInitArgs javaVmInitArgs;
     javaVmInitArgs.version = JNI_VERSION_10;
@@ -28,6 +30,7 @@ JVM_STATUS getJNIEnv (JNIEnv **pJniEnv) {
 
     *pJniEnv = jniEnv;
     if (*pJniEnv == NULL) {
+        printf ("JVM environment could not be initiated");
         return JVM_UNSUCCESS;
     }
 
@@ -39,6 +42,7 @@ JVM_STATUS getJNIEnv (JNIEnv **pJniEnv) {
 JVM_STATUS destroyJVM () {
 
     if (javaVm == NULL) {
+        printf ("JVM could not be destroyed. NULL pointer JavaVm");
         return JVM_UNSUCCESS;
     } else {
         jint result = (*javaVm)->DestroyJavaVM (javaVm);

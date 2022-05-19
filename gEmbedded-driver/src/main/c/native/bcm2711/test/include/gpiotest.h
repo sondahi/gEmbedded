@@ -1,7 +1,8 @@
 #ifndef GPIOTEST_H
 #define GPIOTEST_H
 
-#include "gpiodriver.h"
+#include "gpio.h"
+#include "com_comert_gEmbedded_nativeinterface_GPIOController.h"
 
 int initGpioSuite(void);
 int cleanupGpioSuite(void);

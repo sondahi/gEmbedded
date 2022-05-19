@@ -1,8 +1,6 @@
 #ifndef JVMTEST_H
 #define JVMTEST_H
 
-#include "jvm.h"
-
 void testCreateJVM(void );
 void testGetJNIEnv(void );
 void testDestroyJVM(void );
