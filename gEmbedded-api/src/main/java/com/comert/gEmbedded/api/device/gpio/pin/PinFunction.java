@@ -4,12 +4,12 @@ import com.comert.gEmbedded.api.device.DeviceConstant;
 
 public enum PinFunction implements DeviceConstant {
 
-    ALT0(0, "Alternate 0"),
-    ALT1(1, "Alternate 1"),
-    ALT2(2, "Alternate 2"),
-    ALT3(3, "Alternate 3"),
-    ALT4(4, "Alternate 4"),
-    ALT5(5, "Alternate 5"),
+    ALT_0(0, "Alternate 0"),
+    ALT_1(1, "Alternate 1"),
+    ALT_2(2, "Alternate 2"),
+    ALT_3(3, "Alternate 3"),
+    ALT_4(4, "Alternate 4"),
+    ALT_5(5, "Alternate 5"),
     INPUT(6, "Input"),
     OUTPUT(7, "Output");
 

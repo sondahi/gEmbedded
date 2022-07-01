@@ -11,9 +11,8 @@ import com.comert.gEmbedded.api.device.gpio.pin.configurator.OutPutPinConfigurat
 import com.comert.gEmbedded.api.device.gpio.pin.configurator.PWMPinConfigurator;
 import com.comert.gEmbedded.api.device.i2c.master.I2CBus;
 import com.comert.gEmbedded.api.device.i2c.master.configurator.I2CMasterConfigurator;
-import com.comert.gEmbedded.nativeinterface.DeviceController;
 import com.comert.gEmbedded.nativeinterface.GPIOController;
-import com.comert.gEmbedded.nativeinterface.I2CMasterController;
+import com.comert.gEmbedded.nativeinterface.I2CMasterDriver;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -77,7 +76,7 @@ public final class ConfigurationVisitor {
 
         GPIOController.setPinFunction(i2CMasterConfigurator.getSDAPin(), i2CMasterConfigurator.getSDAPinFunction());
         GPIOController.setPinFunction(i2CMasterConfigurator.getSCLPin(), i2CMasterConfigurator.getSCLPinFunction());
-        I2CMasterController.setMaster(i2CMasterConfigurator.getBus(), i2CMasterConfigurator.getBusClockInHertz(), i2CMasterConfigurator.getBusClockStretchTimeout());
+        I2CMasterDriver.setMaster(i2CMasterConfigurator.getBus(), i2CMasterConfigurator.getBusClockInHertz(), i2CMasterConfigurator.getBusClockStretchTimeout());
     }
 
     private void checkIfPinIsNotSupportedAndIsAlreadyRegistered(final Pin pin) throws PinConfigurationException {

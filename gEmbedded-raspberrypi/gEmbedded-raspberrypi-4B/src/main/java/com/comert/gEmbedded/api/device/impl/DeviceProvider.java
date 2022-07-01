@@ -1,7 +1,7 @@
 package com.comert.gEmbedded.api.device.impl;
 
 import com.comert.gEmbedded.api.device.exception.JNIException;
-import com.comert.gEmbedded.nativeinterface.DeviceController;
+import com.comert.gEmbedded.nativeinterface.DeviceDriver;
 
 public final class DeviceProvider extends DeviceImpl {
     public DeviceProvider() {
@@ -10,7 +10,7 @@ public final class DeviceProvider extends DeviceImpl {
     @Override
     protected void executeSetUp() {
         try {
-            DeviceController.setupDevice();
+            DeviceDriver.setupDevice();
         } catch (JNIException jniException) {
             throw new RuntimeException(jniException.getMessage());
         }
@@ -19,7 +19,7 @@ public final class DeviceProvider extends DeviceImpl {
     @Override
     protected void executeShutDown() {
         try {
-            DeviceController.shutdownDevice();
+            DeviceDriver.shutdownDevice();
         } catch (JNIException jniException) {
             throw new RuntimeException(jniException.getMessage());
         }

@@ -10,7 +10,7 @@ import com.comert.gEmbedded.api.device.i2c.impl.I2CMasterImpl;
 import com.comert.gEmbedded.api.device.i2c.master.I2CBus;
 import com.comert.gEmbedded.api.device.i2c.master.I2CMaster;
 import com.comert.gEmbedded.api.device.i2c.master.configurator.I2CMasterConfigurator;
-import com.comert.gEmbedded.nativeinterface.I2CMasterController;
+import com.comert.gEmbedded.nativeinterface.I2CMasterDriver;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -93,7 +93,7 @@ public class I2CMasterParent extends I2CMasterImpl {
     @Override
     public final synchronized void sendData(byte slaveAddress, byte[] dataToSend) throws IOException {
         try {
-            I2CMasterController.sendData(busSelector, slaveAddress, dataToSend, dataToSend.length);
+            I2CMasterDriver.sendData(busSelector, slaveAddress, dataToSend, dataToSend.length);
         } catch (JNIException jniException) {
             throw new IOException(ExceptionMessage.IO_EXCEPTION_MESSAGE, jniException.getMessage());
         }
@@ -102,7 +102,7 @@ public class I2CMasterParent extends I2CMasterImpl {
     @Override
     public final synchronized void sendData(byte slaveAddress, byte[] dataToSend, int dataToSendSize) throws IOException {
         try {
-            I2CMasterController.sendData(busSelector, slaveAddress, dataToSend, dataToSendSize);
+            I2CMasterDriver.sendData(busSelector, slaveAddress, dataToSend, dataToSendSize);
         } catch (JNIException jniException) {
             throw new IOException(ExceptionMessage.IO_EXCEPTION_MESSAGE, jniException.getMessage());
         }
@@ -111,7 +111,7 @@ public class I2CMasterParent extends I2CMasterImpl {
     @Override
     public final synchronized void receiveData(byte slaveAddress, int[] dataToReceive) throws IOException {
         try {
-            I2CMasterController.receiveData(busSelector, slaveAddress, dataToReceive, dataToReceive.length);
+            I2CMasterDriver.receiveData(busSelector, slaveAddress, dataToReceive, dataToReceive.length);
         } catch (JNIException jniException) {
             throw new IOException(ExceptionMessage.IO_EXCEPTION_MESSAGE, jniException.getMessage());
         }
@@ -120,7 +120,7 @@ public class I2CMasterParent extends I2CMasterImpl {
     @Override
     public final synchronized void receiveData(byte slaveAddress, int[] dataToReceive, int dataToReceiveSize) throws IOException {
         try {
-            I2CMasterController.receiveData(busSelector, slaveAddress, dataToReceive, dataToReceiveSize);
+            I2CMasterDriver.receiveData(busSelector, slaveAddress, dataToReceive, dataToReceiveSize);
         } catch (JNIException jniException) {
             throw new IOException(ExceptionMessage.IO_EXCEPTION_MESSAGE, jniException.getMessage());
         }
@@ -129,7 +129,7 @@ public class I2CMasterParent extends I2CMasterImpl {
     @Override
     public final synchronized void sendAndReceiveData(byte slaveAddress, byte[] dataToSend, int[] dataToReceive) throws IOException {
         try {
-            I2CMasterController.sendAndReceiveData(busSelector, slaveAddress, dataToSend, dataToSend.length, dataToReceive, dataToReceive.length);
+            I2CMasterDriver.sendAndReceiveData(busSelector, slaveAddress, dataToSend, dataToSend.length, dataToReceive, dataToReceive.length);
         } catch (JNIException jniException) {
             throw new IOException(ExceptionMessage.IO_EXCEPTION_MESSAGE, jniException.getMessage());
         }
@@ -138,7 +138,7 @@ public class I2CMasterParent extends I2CMasterImpl {
     @Override
     public final synchronized void sendAndReceiveData(byte slaveAddress, byte[] dataToSend, int dataToSendSize, int[] dataToReceive, int dataToReceiveSize) throws IOException {
         try {
-            I2CMasterController.sendAndReceiveData(busSelector, slaveAddress, dataToSend, dataToSendSize, dataToReceive, dataToReceiveSize);
+            I2CMasterDriver.sendAndReceiveData(busSelector, slaveAddress, dataToSend, dataToSendSize, dataToReceive, dataToReceiveSize);
         } catch (JNIException jniException) {
             throw new IOException(ExceptionMessage.IO_EXCEPTION_MESSAGE, jniException.getMessage());
         }
@@ -148,7 +148,7 @@ public class I2CMasterParent extends I2CMasterImpl {
     @Override
     public final synchronized void writeRegister(byte slaveAddress, byte registerAddress, byte dataToSend) throws IOException {
         try {
-            I2CMasterController.writeRegister(busSelector, slaveAddress, registerAddress, dataToSend);
+            I2CMasterDriver.writeRegister(busSelector, slaveAddress, registerAddress, dataToSend);
         } catch (JNIException jniException) {
             throw new IOException(ExceptionMessage.IO_EXCEPTION_MESSAGE, jniException.getMessage());
         }
@@ -157,7 +157,7 @@ public class I2CMasterParent extends I2CMasterImpl {
     @Override
     public final synchronized int readRegister(byte slaveAddress, byte registerAddress) throws IOException {
         try {
-            return I2CMasterController.readRegister(busSelector, slaveAddress, registerAddress);
+            return I2CMasterDriver.readRegister(busSelector, slaveAddress, registerAddress);
         } catch (JNIException jniException) {
             throw new IOException(ExceptionMessage.IO_EXCEPTION_MESSAGE, jniException.getMessage());
         }
@@ -167,7 +167,7 @@ public class I2CMasterParent extends I2CMasterImpl {
     @Override
     public final synchronized int writeAndReadRegister(byte slaveAddress, byte registerAddress, byte dataToSend) throws IOException {
         try {
-            return I2CMasterController.writeAndReadRegister(busSelector, slaveAddress, registerAddress, dataToSend);
+            return I2CMasterDriver.writeAndReadRegister(busSelector, slaveAddress, registerAddress, dataToSend);
         } catch (JNIException jniException) {
             throw new IOException(ExceptionMessage.IO_EXCEPTION_MESSAGE, jniException.getMessage());
         }
@@ -176,7 +176,7 @@ public class I2CMasterParent extends I2CMasterImpl {
     @Override
     public final synchronized void write(byte slaveAddress, byte dataToSend) throws IOException {
         try {
-            I2CMasterController.write(busSelector, slaveAddress, dataToSend);
+            I2CMasterDriver.write(busSelector, slaveAddress, dataToSend);
         } catch (JNIException jniException) {
             throw new IOException(ExceptionMessage.IO_EXCEPTION_MESSAGE, jniException.getMessage());
         }
@@ -185,7 +185,7 @@ public class I2CMasterParent extends I2CMasterImpl {
     @Override
     public final synchronized int read(byte slaveAddress) throws IOException {
         try {
-            return I2CMasterController.read(busSelector, slaveAddress);
+            return I2CMasterDriver.read(busSelector, slaveAddress);
         } catch (JNIException jniException) {
             throw new IOException(ExceptionMessage.IO_EXCEPTION_MESSAGE, jniException.getMessage());
         }
